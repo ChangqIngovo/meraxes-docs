@@ -1,5 +1,7 @@
-project = "Meraxes"
-author = "Meraxes developers"
+project = "Meraxes Guide"
+author = "Meraxes Guide contributors"
+version = "forests / 90d8474"
+release = version
 
 extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx_rtd_theme"]
 source_suffix = {".md": "markdown"}
@@ -9,3 +11,18 @@ myst_enable_extensions = ["dollarmath", "amsmath"]
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+myst_heading_anchors = 4
+numfig = True
+math_number_all = True
+math_numfig = True
+html_title = "Meraxes Guide"
+html_css_files = ["guide.css"]
+html_theme_options = {"navigation_depth": 3, "collapse_navigation": False}
+html_context = {
+    "display_github": True,
+    "github_user": "ChangqIngovo",
+    "github_repo": "meraxes-docs",
+    "github_version": "main",
+    "conf_py_path": "/docs/",
+}

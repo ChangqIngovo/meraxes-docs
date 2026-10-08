@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1160 1390" role="img" aria-labelledby="title desc">
+<title id="title">Meraxes execution flow</title><desc id="desc">Top-down coupled snapshot workflow with a next-snapshot loop, optional thermal and 21-cm products, and final master-file assembly.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="context-stroke"/></marker></defs>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#203344} .heading{font-weight:700;font-size:17px} .body{font-size:14px} .label{font-size:13px}</style>
+<rect width="1160" height="1390" fill="white"/>
+<rect x="280" y="327" width="855" height="860" rx="12" fill="#F5F7F9" stroke="#DCE2E7"/>
+<text x="295" y="352" text-anchor="start" class="label">Snapshot loop: dracarys()</text>
+<rect x="345" y="20" width="505" height="72" rx="8" fill="#F1F6FC" stroke="#427CC0" stroke-width="1.6"/>
+<text x="597.5" y="45" text-anchor="middle" class="heading">Launch Meraxes</text>
+<text x="597.5" y="68" text-anchor="middle" class="body">main(): initialize MPI</text>
+<rect x="345" y="120" width="505" height="88" rx="8" fill="#F1F6FC" stroke="#427CC0" stroke-width="1.6"/>
+<text x="597.5" y="145" text-anchor="middle" class="heading">Read parameters</text>
+<text x="597.5" y="168" text-anchor="middle" class="body">read_parameter_file()</text>
+<text x="597.5" y="187" text-anchor="middle" class="body">Run file, simulation file and defaults</text>
+<rect x="345" y="237" width="505" height="82" rx="8" fill="#F1F6FC" stroke="#427CC0" stroke-width="1.6"/>
+<text x="597.5" y="262" text-anchor="middle" class="heading">Initialize tables and storage</text>
+<text x="597.5" y="285" text-anchor="middle" class="body">init_meraxes() → init_storage()</text>
+<text x="597.5" y="304" text-anchor="middle" class="body">Timeline, cooling and stellar-feedback tables</text>
+<rect x="345" y="372" width="505" height="92" rx="8" fill="#F1F6FC" stroke="#427CC0" stroke-width="1.6"/>
+<text x="597.5" y="397" text-anchor="middle" class="heading">Read halos and update hosts</text>
+<text x="597.5" y="420" text-anchor="middle" class="body">read_halos(); reconnect galaxies</text>
+<text x="597.5" y="439" text-anchor="middle" class="body">Sample persistent UVB feedback</text>
+<rect x="345" y="500" width="505" height="92" rx="8" fill="#FCF6EB" stroke="#BA7D25" stroke-width="1.6"/>
+<text x="597.5" y="525" text-anchor="middle" class="heading">Evolve galaxies</text>
+<text x="597.5" y="548" text-anchor="middle" class="body">evolve_galaxies()</text>
+<text x="597.5" y="567" text-anchor="middle" class="body">Gas cycling, stars, feedback, BHs and mergers</text>
+<rect x="345" y="628" width="505" height="95" rx="8" fill="#EFF8F5" stroke="#278470" stroke-width="1.6"/>
+<text x="597.5" y="653" text-anchor="middle" class="heading">Prepare source and density grids</text>
+<text x="597.5" y="676" text-anchor="middle" class="body">construct_baryon_grids() and grid readers</text>
+<text x="597.5" y="695" text-anchor="middle" class="body">NGP deposition; distributed grid assembly</text>
+<rect x="345" y="766" width="505" height="100" rx="8" fill="#EFF8F5" stroke="#278470" stroke-width="1.6"/>
+<text x="597.5" y="791" text-anchor="middle" class="heading">Calculate thermal and ionization fields</text>
+<text x="597.5" y="814" text-anchor="middle" class="body">ComputeTs() when enabled</text>
+<text x="597.5" y="833" text-anchor="middle" class="body">find_HII_bubbles(); update UVB history</text>
+<rect x="345" y="907" width="505" height="82" rx="8" fill="#EFF8F5" stroke="#278470" stroke-width="1.6"/>
+<text x="597.5" y="932" text-anchor="middle" class="heading">Calculate 21-cm brightness</text>
+<text x="597.5" y="955" text-anchor="middle" class="body">ComputeBrightnessTemperatureBox()</text>
+<text x="597.5" y="974" text-anchor="middle" class="body">delta_T when enabled</text>
+<rect x="345" y="1055" width="505" height="95" rx="8" fill="#FCF2F4" stroke="#BD5864" stroke-width="1.6"/>
+<text x="597.5" y="1080" text-anchor="middle" class="heading">Save outputs</text>
+<text x="597.5" y="1103" text-anchor="middle" class="body">write_snapshot() and grid-output writers</text>
+<text x="597.5" y="1122" text-anchor="middle" class="body">Selected catalogues/cubes; interim summaries</text>
+<rect x="345" y="1280" width="505" height="85" rx="8" fill="#FCF2F4" stroke="#BD5864" stroke-width="1.6"/>
+<text x="597.5" y="1305" text-anchor="middle" class="heading">Assemble the master file</text>
+<text x="597.5" y="1328" text-anchor="middle" class="body">Rank 0: create_master_file()</text>
+<text x="597.5" y="1347" text-anchor="middle" class="body">meraxes.hdf5 → saved-product analysis</text>
+<path d="M 597.5 92 L 597.5 120" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 208 L 597.5 237" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 319 L 597.5 372" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 464 L 597.5 500" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 592 L 597.5 628" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 723 L 597.5 766" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 866 L 597.5 907" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 989 L 597.5 1055" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 597.5 1150 L 597.5 1280" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)"/>
+<rect x="900" y="634" width="210" height="82" rx="8" fill="#F1F6FC" stroke="#427CC0" stroke-width="1.6"/>
+<text x="1005.0" y="659" text-anchor="middle" class="heading">Simulation grids</text>
+<text x="1005.0" y="682" text-anchor="middle" class="body">read_grid()</text>
+<text x="1005.0" y="701" text-anchor="middle" class="body">Density; thermal velocities</text>
+<rect x="900" y="901" width="210" height="110" rx="8" fill="#EFF8F5" stroke="#278470" stroke-width="1.6" stroke-dasharray="6 4"/>
+<text x="1005.0" y="926" text-anchor="middle" class="heading">Derived products</text>
+<text x="1005.0" y="949" text-anchor="middle" class="body">Compute_PS()</text>
+<text x="1005.0" y="968" text-anchor="middle" class="body">ConstructLightcone()</text>
+<text x="1005.0" y="987" text-anchor="middle" class="body">Enabled separately</text>
+<path d="M 900 675 L 850 675.5" fill="none" stroke="#427CC0" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 850 948 L 900 956" fill="none" stroke="#278470" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 1005 1011 L 1005 1102.5 L 850 1102.5" fill="none" stroke="#278470" stroke-width="1.7" marker-end="url(#arrow)"/>
+<path d="M 345 1102.5 L 245 1102.5 L 245 418 L 345 418" fill="none" stroke="#536676" stroke-width="1.7" marker-end="url(#arrow)" stroke-dasharray="6 4"/>
+<text x="155" y="743" text-anchor="middle" class="label">Next snapshot</text>
+<text x="690" y="1216" text-anchor="middle" class="label">After the last snapshot</text>
+</svg>
