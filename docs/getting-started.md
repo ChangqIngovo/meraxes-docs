@@ -2,17 +2,27 @@
 
 ## Dependencies
 
-| Dependency | Use |
-|---|---|
-| C compiler, CMake and Make | Compile Meraxes. |
-| MPI | Parallel execution. |
-| Parallel HDF5, including the high-level library | Read and write simulation data. |
-| GSL and CBLAS | Numerical integration, interpolation and random draws. |
-| FFTW single-precision and MPI libraries | Distributed radiation grids. |
-| Git and bundled `mlog` | Build metadata and logging. |
-| Sector | Required only for stellar photometry. |
+Meraxes requires a C99 compiler and CMake **3.18 or newer**. The table lists
+example Gadi module versions and their locations.
 
-Use HDF5 and FFTW libraries built with the same MPI implementation.
+| Dependency | Version (Gadi example) | Gadi path | Use |
+|---|---|---|---|
+| GCC | 12.2.0 | `/apps/gcc/12.2.0/wrappers/gcc` | Compile C99 source. |
+| CMake | 3.24.2 | `/apps/cmake/3.24.2` | Configure the build. |
+| Open MPI | 4.1.4 | `/apps/openmpi/4.1.4` | Parallel execution. |
+| Parallel HDF5 | 1.12.2p | `/apps/hdf5/1.12.2p` | Read and write data; requires the C and high-level libraries. |
+| GSL and CBLAS | 2.7.1 | `$GSL_ROOT`, set by `module load gsl/2.7.1` | Integration, interpolation and random draws; includes `gslcblas`. |
+| FFTW | 3.3.10 | `/apps/fftw3/3.3.10-nci1` | Distributed grids; requires `fftw3f` and `fftw3f_mpi`. |
+| Make | System version: `make --version` | Locate with `command -v make` | Build the executable. |
+| Git | System version: `git --version` | Locate with `command -v git` | Record build metadata. |
+| `mlog` | Bundled submodule revision | `<meraxes>/src/mlog` | Logging. |
+| Sector | Source checkout | The directory selected by `SECTOR_ROOT` | Required only for stellar photometry. |
+
+Load compatible compiler, MPI, HDF5 and FFTW modules before configuring.
+Use `module show <name>/<version>` to inspect include and library paths,
+and `echo "$GSL_ROOT"` to print the GSL installation directory.
+See the [Gadi software catalogue](https://opus.nci.org.au/spaces/Help/pages/248840422/Supported+Applications)
+for available modules.
 
 ## Configure and compile
 

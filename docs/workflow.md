@@ -129,18 +129,3 @@ under `Snap/Grids`. Galaxy magnitudes are fields in
 `Snap`. The [output reference](outputs.md) gives the complete dataset lists
 and saving conditions.
 
-## Supporting routines
-
-<details>
-<summary>Supporting routines and the CUDA implementation</summary>
-
-| Source file and main routines | What it controls | Result |
-|---|---|---|
-| [core/interactive.c](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/interactive.c): `continue_prompt()` | With `FlagInteractive`, prompt after a run and reread the parameter file before another iteration. | A repeated model run using updated settings or an orderly exit. |
-| [core/misc_tools.c](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/misc_tools.c): `pos_to_ngp()`, `grid_index()`, `apply_lognormal_scatter()` | Provide [mesh indexing](formulas/numerics.md#mesh-and-source-assignment), periodic coordinates, interpolation, accurate sums, random scatter and common error handling. | Shared numerical operations used by the model components. |
-| [core/utils.c](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/utils.c): `timer_start()`, `timer_stop()`, `timer_delta()` | Measure elapsed wall-clock time. | Timing information for runtime logs. |
-| [core/debug.c](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/debug.c): `check_counts()`, `check_pointers()`, `write_single_grid()` | Check galaxy counts and pointer consistency, support debugger attachment, and write diagnostic grids. | Consistency diagnostics and optional diagnostic HDF5 datasets. |
-| [core/meraxes_gpu.cu](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/meraxes_gpu.cu): `init_CUDA()`, `filter_gpu()`, `find_HII_bubbles_gpu_main_loop()` | Select CUDA devices, check device errors, and implement filtering and the cell-level ionization kernels. | GPU operations used by the CUDA [ionization calculation](formulas/igm.md#ionization-and-photoheating-feedback). |
-| [core/find_HII_bubbles_gpu.cu](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/find_HII_bubbles_gpu.cu): `_find_HII_bubbles_gpu()` | Coordinate FFT filtering, device transfers and GPU ionization kernels when built with `USE_CUDA`. | Neutral fraction, bubble radius and UVB-history grids. The CUDA path does not support `Flag_IncludeSpinTemp`. |
-
-</details>
