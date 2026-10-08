@@ -15,8 +15,6 @@ example Gadi module versions and their locations.
 | FFTW | 3.3.10 | `/apps/fftw3/3.3.10-nci1` | Distributed grids; requires `fftw3f` and `fftw3f_mpi`. |
 | Make | System version: `make --version` | Locate with `command -v make` | Build the executable. |
 | Git | System version: `git --version` | Locate with `command -v git` | Record build metadata. |
-| `mlog` | Bundled submodule revision | `<meraxes>/src/mlog` | Logging. |
-| Sector | Source checkout | The directory selected by `SECTOR_ROOT` | Required only for stellar photometry. |
 
 Load compatible compiler, MPI, HDF5 and FFTW modules before configuring.
 Use `module show <name>/<version>` to inspect include and library paths,
