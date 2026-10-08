@@ -1,84 +1,66 @@
-# Introduction
+# **Meraxes**
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit) [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](https://github.com/meraxes-devs/meraxes/graphs/contributors)  
 
-**Meraxes is a semi-analytic galaxy formation model for studying the first
-stars, galaxies and black holes, and their effects on the intergalactic medium
-(IGM).** It follows galaxy growth through dark-matter halo merger trees and
-couples their ultraviolet and X-ray emission to the ionization and thermal
-state of the surrounding gas.
+![Galaxy UV luminosity function](_static/meraxes-glfs.jpg)
 
-During cosmic dawn and the Epoch of Reionization, radiation from early
-sources heated the IGM and ionized its neutral hydrogen. Galaxy surveys
-measure the luminous sources, while the redshifted 21-cm signal probes the
-neutral gas around them. Connecting these observations requires a model
-that links the abundance and properties of galaxies to the radiation they
-produce and the response of the IGM.
+---
+![21-cm brightness temperature lightcones ](_static/meraxes-lightcones.jpg)
 
-## Galaxies and reionization
+---
 
-Meraxes was developed within the DRAGONS project to follow this connection
-in both space and time ([Mutch et al. 2016](https://doi.org/10.1093/mnras/stw1506)).
-The underlying N-body simulation supplies halo masses, positions and merger
-histories. Semi-analytic prescriptions then evolve the gas, stars, metals
-and black holes associated with each halo. This approach combines galaxy
-formation histories with the large volumes needed to describe the growth
-and overlap of ionized regions.
 
-A merger tree connects a halo to its progenitors and descendants; a forest
-groups connected trees. Meraxes advances the galaxy population one snapshot
-at a time. At each snapshot, emission from galaxies across the volume
-contributes to shared radiation fields. Their local ionization histories and
-radiation backgrounds then influence gas accretion in subsequent snapshots.
-This coupling allows galaxies to affect neighbours well beyond their own
-merger trees.
+Meraxes is a **semi-analytic galaxy formation model** designed to study the interplay between high-redshift galaxies and their intergalactic medium (IGM) during the Epoch of Reionization (EoR). It  evaluates galaxy properties (e.g., stellar mass, star formation rate, UV luminosity in rest frame or through observational filters such as HST, JWST or other user-defined ones) from dark matter halo merger trees. It computes the photon budget including UV and X-ray, integrating with a customized version of [``21cmFAST``](https://github.com/21cmfast/21cmFAST) to simulate the ionization state and 21-cm signals of the IGM during the EoR.  
 
-| Component | Physical role |
-|---|---|
-| Gas and stars | Gas accretion and cooling supply star formation; stellar evolution returns mass, metals and energy. |
-| Black holes | Accretion and mergers grow black holes; active galactic nuclei provide radiation and feedback. |
-| Radiation and the IGM | A modified **21cmFAST** calculation follows ionized regions, X-ray heating, spin temperature and the 21-cm signal. |
-| Photoheating feedback | The evolving ultraviolet background reduces the gas supply of susceptible low-mass haloes. |
-| Early stellar populations | Optional mini-halo physics follows metal-free stars, molecular cooling, Lyman–Werner radiation and enrichment. |
+A full list of publications directly using Meraxes is available on [ADS](https://ui.adsabs.harvard.edu/public-libraries/CWUcYnt3TsmG6BuOKjR0Fw).  
 
-The principal extensions describe AGN growth and radiation
-([Qin et al. 2017](https://doi.org/10.1093/mnras/stx1909)), stellar spectra and dust
-([Qiu et al. 2019](https://doi.org/10.1093/mnras/stz2233)), IGM heating and the 21-cm signal
-([Balu et al. 2023](https://doi.org/10.1093/mnras/stad281)), and Population III stars
-([Ventura et al. 2024](https://doi.org/10.1093/mnras/stae567)).
+## **Complementary Tools**
+- **[DRAGONS](https://github.com/meraxes-devs/dragons):** A Python package for reading and processing Meraxes output.  
+- **[Sector](https://github.com/meraxes-devs/sector):** A library for computing spectral energy distributions from Meraxes simulations.  
 
-## From galaxies to observables
 
-The galaxy population provides stellar masses, star-formation rates, gas
-and metal reservoirs, black-hole properties and luminosities. Stellar
-population modelling connects star-formation histories to ultraviolet
-luminosities, colours and luminosity functions, allowing comparison with
-high-redshift galaxy surveys.
+## **Installation**
+Please refer to [`BUILD.md`](https://github.com/meraxes-devs/meraxes/blob/master/BUILD.md) for detailed installation and build instructions.
 
-![Galaxy ultraviolet luminosity functions at redshifts 5 to 20, with model curves and observational measurements.](_static/meraxes-glfs.jpg)
 
-Galaxy UV luminosity functions: model predictions (black curves) and observational measurements (grey symbols). [Meraxes](https://github.com/qyx268/meraxes-devs/blob/forests/output/results/figs/glfs.jpg); [figure licence](_static/MERAXES-LICENSE.txt).
+## **Documentation**
+Comprehensive documentation is currently under development. For inquiries or assistance, please contact the team.  
 
-The IGM calculation predicts the neutral fraction and gas temperatures
-throughout the volume. These fields determine whether neutral hydrogen
-appears in 21-cm absorption or emission against the cosmic microwave
-background. Coeval maps describe individual times; lightcones show the
-evolution along the line of sight, while power spectra quantify the
-spatial fluctuations. Together, galaxy and 21-cm observables connect the
-sources of radiation to the timing and structure of cosmic heating and
-reionization.
 
-![Four 21-cm brightness-temperature lightcones showing absorption, emission and reionization between redshifts about 30 and 5.](_static/meraxes-lightcones.jpg)
+## **Acknowledging**
+If you use Meraxes or its outputs in your research, please cite the following foundational paper:  
 
-21-cm lightcones for four model configurations. Warm colours show absorption and blue shows emission; the panels illustrate changes in the heating and reionization histories. [Meraxes](https://github.com/qyx268/meraxes-devs/blob/forests/output/results/figs/lcs.jpg); [figure licence](_static/MERAXES-LICENSE.txt).
+- Mutch et al. (2016). **Dark-ages reionization and galaxy formation simulation - III. Modelling galaxy formation and the epoch of reionization.**  *Monthly Notices of the Royal Astronomical Society*, 462 (1): 250–276. [DOI: 10.1093/mnras/stw1506](https://doi.org/10.1093/mnras/stw1506).  
 
-## References
+If using specific features introduced in Meraxes, please cite the corresponding papers:  
 
-- **Mutch et al. (2016).** *DRAGONS III. Modelling galaxy formation and the epoch of reionization.* [MNRAS, 462, 250–276](https://doi.org/10.1093/mnras/stw1506).
-- **Qin et al. (2017).** *DRAGONS X. The small contribution of quasars to reionization.* [MNRAS, 472, 2009–2027](https://doi.org/10.1093/mnras/stx1909).
-- **Qiu et al. (2019).** *DRAGONS XIX. Predictions of infrared excess and cosmic star formation rate density from UV observations.* [MNRAS, 489, 1357–1372](https://doi.org/10.1093/mnras/stz2233).
-- **Balu et al. (2023).** *Thermal and reionization history within a large-volume semi-analytic galaxy formation simulation.* [MNRAS, 520, 3368–3382](https://doi.org/10.1093/mnras/stad281).
-- **Ventura et al. (2024).** *Semi-analytic modelling of Pop. III star formation and metallicity evolution – I. Impact on the UV luminosity functions at z = 9–16.* [MNRAS, 529, 628–646](https://doi.org/10.1093/mnras/stae567).
+- **AGN Model:**  Qin et al. (2017). **Dark-ages reionization and galaxy formation simulation - X. The small contribution of quasars to reionization.** *Monthly Notices of the Royal Astronomical Society*, 472 (2): 2009–2027. [DOI: 10.1093/mnras/stx1909](https://doi.org/10.1093/mnras/stx1909).  
 
-See [References](references.md) for the full bibliography.
+- **SED and Dust Model:**  Qiu et al. (2019). **Dark-age reionization and galaxy formation simulation - XIX. Predictions of infrared excess and cosmic star formation rate density from UV observations** *Monthly Notices of the Royal Astronomical Society*, 489 (1): 1357-1372. [DOI: 10.1093/mnras/stz2233](https://doi.org/10.1093/mnras/stz2233).  
+
+- **21-cm Model:**  Balu et al. (2023). **Thermal and reionization history within a large-volume semi-analytic galaxy formation simulation.**  *Monthly Notices of the Royal Astronomical Society*, 520 (3): 3368–3382. [DOI: 10.1093/mnras/stad281](https://doi.org/10.1093/mnras/stad281).  
+
+- **Minihalo Model:**  Ventura et al. (2024). **Semi-analytic modelling of Pop. III star formation and metallicity evolution - I. Impact on the UV luminosity functions at z = 9–16.** *Monthly Notices of the Royal Astronomical Society*, 529 (1): 628–646. [DOI: 10.1093/mnras/stae567](https://doi.org/10.1093/mnras/stae567).  
+
+## **Contributors**
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="19.95%"><a href="https://smutch.github.io/"><img src="https://avatars.githubusercontent.com/u/782987?v=4?s=100" width="100" alt="Simon Mutch"/><br /><sub><b>Simon Mutch</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=smutch" title="Code">💻</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://researchportalplus.anu.edu.au/en/persons/yuxiang-qin"><img src="https://avatars.githubusercontent.com/u/15994713?v=4?s=100" width="100" alt="Yuxiang Qin"/><br /><sub><b>Yuxiang Qin</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=qyx268" title="Code">💻</a> <a href="https://github.com/meraxes-devs/meraxes/pulls?q=is%3Apr+reviewed-by%3Aqyx268" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://github.com/EMventura"><img src="https://avatars.githubusercontent.com/u/98299102?v=4?s=100" width="100" alt="Emanuele Maria Ventura"/><br /><sub><b>Emanuele Maria Ventura</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=EMventura" title="Code">💻</a> <a href="https://github.com/meraxes-devs/meraxes/pulls?q=is%3Apr+reviewed-by%3AEMventura" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="http://s-balu.github.io"><img src="https://avatars.githubusercontent.com/u/14290533?v=4?s=100" width="100" alt="Balu Sreedhar"/><br /><sub><b>Balu Sreedhar</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=s-balu" title="Code">💻</a> <a href="https://github.com/meraxes-devs/meraxes/pulls?q=is%3Apr+reviewed-by%3As-balu" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://github.com/BradGreig"><img src="https://avatars.githubusercontent.com/u/16087482?v=4?s=100" width="100" alt="BradGreig"/><br /><sub><b>BradGreig</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=BradGreig" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="19.95%"><a href="http://www.astronomy.swin.edu.au/~gpoole/"><img src="https://avatars.githubusercontent.com/u/599836?v=4?s=100" width="100" alt="Gregory B. Poole"/><br /><sub><b>Gregory B. Poole</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=gbpoole" title="Code">💻</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://github.com/pgeil"><img src="https://avatars.githubusercontent.com/u/13758421?v=4?s=100" width="100" alt="pgeil"/><br /><sub><b>pgeil</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=pgeil" title="Code">💻</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://github.com/yqiuu"><img src="https://avatars.githubusercontent.com/u/26683739?v=4?s=100" width="100" alt="Yisheng Qiu"/><br /><sub><b>Yisheng Qiu</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=yqiuu" title="Code">💻</a></td>
+      <td align="center" valign="top" width="19.95%"><a href="https://github.com/daviesje"><img src="https://avatars.githubusercontent.com/u/36873665?v=4?s=100" width="100" alt="daviesje"/><br /><sub><b>daviesje</b></sub></a><br /><a href="https://github.com/meraxes-devs/meraxes/commits?author=daviesje" title="Code">💻</a></td>
+      <td align="center" valign="top" width="19.95%"><img src="https://avatars.githubusercontent.com/u/1745990?v=4?s=100" width="100" alt="Hansik Kim"/><br /><sub><b>Hansik Kim</b></sub><br />💻</td>
+    </tr>
+  </tbody>
+</table>
 
 ```{toctree}
 :maxdepth: 2
