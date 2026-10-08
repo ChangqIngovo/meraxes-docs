@@ -1,7 +1,5 @@
 project = "Meraxes Guide"
 author = "Meraxes Guide contributors"
-version = "forests / 90d8474"
-release = version
 
 extensions = ["myst_parser", "sphinx.ext.mathjax", "sphinx_rtd_theme"]
 source_suffix = {".md": "markdown"}
@@ -18,7 +16,7 @@ math_number_all = True
 math_numfig = True
 html_title = "Meraxes Guide"
 html_css_files = ["guide.css"]
-html_theme_options = {"navigation_depth": 3, "collapse_navigation": False}
+html_theme_options = {"navigation_depth": 2, "collapse_navigation": True}
 html_context = {
     "display_github": True,
     "github_user": "ChangqIngovo",
@@ -26,3 +24,5 @@ html_context = {
     "github_version": "main",
     "conf_py_path": "/docs/",
 }
+
+html_show_sourcelink = False

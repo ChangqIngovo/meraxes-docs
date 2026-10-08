@@ -10,3 +10,9 @@
   .wy-nav-content { padding: 1.4em; }
   .rst-content table.docutils td { min-width: 130px; }
 }
+
+.rst-content details { border: 1px solid #d9e1e8; border-radius: 5px; margin: 12px 0; padding: 10px 14px; }
+.rst-content summary { cursor: pointer; font-weight: 600; color: #254e70; }
+.rst-content details[open] summary { margin-bottom: 14px; }
+.rst-content .figure { margin: 24px 0; }
+.rst-content .figure .caption { font-size: 0.9em; line-height: 1.5; }

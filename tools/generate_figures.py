@@ -57,55 +57,34 @@ class Diagram:
 
 
 def workflow():
-    d = Diagram(1160, 1390, "Meraxes execution flow", "Top-down coupled snapshot workflow with a next-snapshot loop, optional thermal and 21-cm products, and final master-file assembly.")
-    d.panel(280, 327, 855, 860, "Snapshot loop: dracarys()")
+    d = Diagram(980, 1030, "Meraxes execution flow", "Launch, configure and initialize; then evolve halos, galaxies and radiation through snapshots before assembling the master file.")
+    d.panel(205, 274, 758, 596, "Snapshot loop")
     stages = [
-        ("launch", 20, 72, "Launch Meraxes", ["main(): initialize MPI"], "input"),
-        ("params", 120, 88, "Read parameters", ["read_parameter_file()", "Run file, simulation file and defaults"], "input"),
-        ("init", 237, 82, "Initialize tables and storage", ["init_meraxes() → init_storage()", "Timeline, cooling and stellar-feedback tables"], "input"),
-        ("halos", 372, 92, "Read halos and update hosts", ["read_halos(); reconnect galaxies", "Sample persistent UVB feedback"], "input"),
-        ("evolve", 500, 92, "Evolve galaxies", ["evolve_galaxies()", "Gas cycling, stars, feedback, BHs and mergers"], "galaxy"),
-        ("prepare", 628, 95, "Prepare source and density grids", ["construct_baryon_grids() and grid readers", "NGP deposition; distributed grid assembly"], "grid"),
-        ("igm", 766, 100, "Calculate thermal and ionization fields", ["ComputeTs() when enabled", "find_HII_bubbles(); update UVB history"], "grid"),
-        ("tb", 907, 82, "Calculate 21-cm brightness", ["ComputeBrightnessTemperatureBox()", "delta_T when enabled"], "grid"),
-        ("save", 1055, 95, "Save outputs", ["write_snapshot() and grid-output writers", "Selected catalogues/cubes; interim summaries"], "output"),
-        ("master", 1280, 85, "Assemble the master file", ["Rank 0: create_master_file()", "meraxes.hdf5 → saved-product analysis"], "output"),
+        ("launch", 18, 60, "Launch Meraxes", ["Initialize MPI"], "input"),
+        ("params", 100, 70, "Read parameters and tables", ["Run settings, simulation data and physics tables"], "input"),
+        ("init", 193, 64, "Initialize storage", ["Galaxy records and distributed grids"], "input"),
+        ("halos", 310, 64, "Read halos", ["Update hosts; sample existing UVB feedback"], "input"),
+        ("evolve", 398, 64, "Evolve galaxies", ["Gas, stars, black holes and mergers"], "galaxy"),
+        ("prepare", 486, 64, "Construct source grids", ["Deposit galaxy radiation sources"], "grid"),
+        ("igm", 574, 70, "Update the IGM", ["Heating, ionization and UVB history"], "grid"),
+        ("tb", 668, 64, "Calculate 21-cm brightness", ["Neutral fraction, density and spin temperature"], "grid"),
+        ("save", 786, 64, "Save outputs", ["Selected catalogues, grids and summaries"], "output"),
+        ("master", 943, 64, "Assemble the master file", ["Link the saved snapshot products"], "output"),
     ]
     for name, y, height, title, lines, kind in stages:
-        d.box(name, 345, y, 505, height, title, lines, kind)
+        d.box(name, 265, y, 440, height, title, lines, kind)
     for a, b in zip(stages, stages[1:]):
         d.edge(a[0], b[0])
-    d.box("density", 900, 634, 210, 82, "Simulation grids", ["read_grid()", "Density; thermal velocities"], "input")
-    d.box("products", 900, 901, 210, 110, "Derived products", ["Compute_PS()", "ConstructLightcone()", "Enabled separately"], "grid", True)
+    d.box("density", 745, 486, 205, 64, "Simulation grids", ["Density; optional velocity"], "input")
+    d.box("products", 745, 660, 205, 91, "Optional products", ["Power spectrum", "Lightcone"], "grid", True)
     d.edge("density", "prepare", "w", "e", color=COLORS["input"][0])
     d.edge("tb", "products", "e", "w", color=COLORS["grid"][0])
-    d.edge("products", "save", "s", "e", via=[(1005, 1102.5)], color=COLORS["grid"][0])
-    d.edge("save", "halos", "w", "w", via=[(245,1102.5),(245,418)], dashed=True)
-    d.label(155, 743, "Next snapshot")
-    d.label(690, 1216, "After the last snapshot")
+    d.edge("products", "save", "s", "e", via=[(847.5,818)], color=COLORS["grid"][0])
+    d.edge("save", "halos", "w", "w", via=[(177,818),(177,342)], dashed=True)
+    d.label(99, 598, "Next snapshot")
+    d.label(605, 902, "After the last snapshot")
     d.save("workflow.svg")
 
-
-def source_flow():
-    d = Diagram(1220, 675, "From galaxies to radiation grids", "Galaxy source quantities and simulation density enter separate readers before grid calculations produce ionization, thermal and 21-cm products.")
-    d.box("gal", 25, 20, 350, 105, "Galaxy source state", ["Stars, SFR and effective AGN sources", "Standard or enabled stochastic treatment", "Source quantities after galaxy evolution"], "galaxy")
-    d.box("ngp", 440, 20, 320, 105, "Deposit on the spatial grid", ["construct_baryon_grids()", "Nearest-grid-point cell sums", "MPI assembly"], "grid")
-    d.box("sources", 835, 20, 320, 125, "Source arrays", ["stars; weighted_sfr; sfr; Pop III", "effective_bhm; effective_bhar", "Internal X-ray heating sources", "Saved arrays listed in Outputs"], "grid")
-    d.box("sim", 25, 245, 350, 100, "Simulation input", ["Density contrast", "Velocity in the thermal path", "Independent of galaxy deposition"], "input")
-    d.box("fields", 440, 230, 320, 125, "Calculate IGM fields", ["Thermal evolution when enabled", "Ionization and recombinations", "Persistent photoheating history", "Density and radiation sources"], "grid")
-    d.box("tb", 835, 245, 320, 100, "21-cm signal", ["Co-eval brightness temperature", "Optional power spectrum and lightcone"], "grid")
-    d.box("feedback", 440, 465, 320, 100, "Feedback to galaxies", ["Local UVB history → MvirCrit", "Suppress subsequent baryonic infall"], "feedback")
-    d.box("out", 835, 465, 320, 100, "Saved products", ["Rank catalogues and grid files", "Linked through the master file"], "output")
-    d.edge("gal","ngp","e","w")
-    d.edge("ngp","sources","e","w")
-    d.edge("sources","fields","s","n",via=[(995,185),(600,185)])
-    d.edge("sim","fields","e","w",color=COLORS["input"][0])
-    d.edge("fields","tb","e","w")
-    d.edge("fields","feedback")
-    d.edge("feedback","gal","w","w",via=[(10,515),(10,72.5)],color=COLORS["feedback"][0],dashed=True)
-    d.edge("tb","out")
-    d.label(590, 625, "Source arrays are spatial inputs; galaxy catalogue fields remain separate saved records.")
-    d.save("source-flow.svg")
 
 
 def galaxy_physics():
@@ -129,24 +108,6 @@ def galaxy_physics():
     d.label(560, 635, "Physical connections; execution order is given in the workflow diagram.")
     d.save("galaxy-physics.svg")
 
-
-def igm_flow():
-    d = Diagram(1120, 625, "IGM and 21-cm calculation", "Prepared source and density grids undergo an optional thermal step and ionization before brightness and separately enabled derived products.")
-    d.box("prepared", 35, 25, 280, 95, "Prepared grids", ["Galaxy radiation sources", "Simulation density contrast"], "grid")
-    d.box("thermal", 410, 25, 300, 110, "Thermal evolution", ["ComputeTs() when enabled", "T_K; x_e; Lyα coupling; T_S"], "grid", True)
-    d.box("ion", 805, 25, 280, 110, "Ionization", ["find_HII_bubbles()", "xH; recombination history", "Persistent UVB fields"], "grid")
-    d.box("brightness", 805, 250, 280, 110, "21-cm brightness", ["ComputeBrightnessTemperatureBox()", "delta_T", "When enabled"], "grid", True)
-    d.box("ps", 410, 450, 300, 100, "Power spectrum", ["Compute_PS()", "k_bins; PS_data; PS_error"], "output", True)
-    d.box("lc", 805, 450, 280, 100, "Lightcone", ["ConstructLightcone()", "LightconeBox; lightcone-z"], "output", True)
-    d.edge("prepared","thermal","e","w")
-    d.edge("thermal","ion","e","w")
-    d.edge("prepared","ion","s","n",via=[(175,185),(770,185),(770,0),(945,0)],dashed=True)
-    d.label(455, 176, "Thermal step disabled")
-    d.edge("ion","brightness")
-    d.edge("brightness","ps","s","n",via=[(945,400),(560,400)])
-    d.edge("brightness","lc")
-    d.label(735, 604, "Power spectrum and lightcone consume the same brightness field; enabled independently.")
-    d.save("igm-flow.svg")
 
 
 def output_tree():
@@ -174,7 +135,5 @@ def output_tree():
 
 if __name__ == "__main__":
     workflow()
-    source_flow()
     galaxy_physics()
-    igm_flow()
     output_tree()
