@@ -54,7 +54,15 @@ Edit the generated `input.par`:
 
 The [input reference](inputs.md) lists filenames, defaults and parameter meanings.
 
-## Submit a run
+## Run
+
+```sh
+/path/to/meraxes /path/to/input.par
+```
+
+For cluster runs, see the [submission-file example](#submission-file).
+
+### Submission file
 
 On Gadi, save this minimal submission file as `submit.pbs` in the build directory:
 

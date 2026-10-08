@@ -16,7 +16,7 @@ produce and the response of the IGM.
 ## Galaxies and reionization
 
 Meraxes was developed within the DRAGONS project to follow this connection
-in both space and time ({ref}`Mutch et al. 2016 <ref-mutch2016>`).
+in both space and time ([Mutch et al. 2016](https://doi.org/10.1093/mnras/stw1506)).
 The underlying N-body simulation supplies halo masses, positions and merger
 histories. Semi-analytic prescriptions then evolve the gas, stars, metals
 and black holes associated with each halo. This approach combines galaxy
@@ -40,10 +40,10 @@ merger trees.
 | Early stellar populations | Optional mini-halo physics follows metal-free stars, molecular cooling, Lyman–Werner radiation and enrichment. |
 
 The principal extensions describe AGN growth and radiation
-({ref}`Qin et al. 2017 <ref-qin2017x>`), stellar spectra and dust
-({ref}`Qiu et al. 2019 <ref-qiu2019>`), IGM heating and the 21-cm signal
-({ref}`Balu et al. 2023 <ref-balu2023>`), and Population III stars
-({ref}`Ventura et al. 2024 <ref-ventura2024>`).
+([Qin et al. 2017](https://doi.org/10.1093/mnras/stx1909)), stellar spectra and dust
+([Qiu et al. 2019](https://doi.org/10.1093/mnras/stz2233)), IGM heating and the 21-cm signal
+([Balu et al. 2023](https://doi.org/10.1093/mnras/stad281)), and Population III stars
+([Ventura et al. 2024](https://doi.org/10.1093/mnras/stae567)).
 
 ## From galaxies to observables
 
@@ -53,12 +53,9 @@ population modelling connects star-formation histories to ultraviolet
 luminosities, colours and luminosity functions, allowing comparison with
 high-redshift galaxy surveys.
 
-```{figure} _static/meraxes-glfs.jpg
-:alt: Galaxy ultraviolet luminosity functions at redshifts 5 to 20, with model curves and observational measurements.
-:width: 100%
+![Galaxy ultraviolet luminosity functions at redshifts 5 to 20, with model curves and observational measurements.](_static/meraxes-glfs.jpg)
 
 Galaxy UV luminosity functions: model predictions (black curves) and observational measurements (grey symbols). [Meraxes](https://github.com/qyx268/meraxes-devs/blob/forests/output/results/figs/glfs.jpg); [figure licence](_static/MERAXES-LICENSE.txt).
-```
 
 The IGM calculation predicts the neutral fraction and gas temperatures
 throughout the volume. These fields determine whether neutral hydrogen
@@ -69,26 +66,19 @@ spatial fluctuations. Together, galaxy and 21-cm observables connect the
 sources of radiation to the timing and structure of cosmic heating and
 reionization.
 
-```{figure} _static/meraxes-lightcones.jpg
-:alt: Four 21-cm brightness-temperature lightcones showing absorption, emission and reionization between redshifts about 30 and 5.
-:width: 100%
+![Four 21-cm brightness-temperature lightcones showing absorption, emission and reionization between redshifts about 30 and 5.](_static/meraxes-lightcones.jpg)
 
 21-cm lightcones for four model configurations. Warm colours show absorption and blue shows emission; the panels illustrate changes in the heating and reionization histories. [Meraxes](https://github.com/qyx268/meraxes-devs/blob/forests/output/results/figs/lcs.jpg); [figure licence](_static/MERAXES-LICENSE.txt).
-```
 
-## Using this guide
+## References
 
-Start with [Configuration and compilation](getting-started.md), then follow
-[Inputs](inputs.md), [Workflow](workflow.md) and [Outputs](outputs.md).
-[Post-processing tools](post-processing.md) covers reading catalogues and
-grids, tracking galaxy histories and constructing statistics with DRAGONS.
-[Formulas](formulas/index.md) collects the physical and numerical
-prescriptions in one place.
+- **Mutch et al. (2016).** *DRAGONS III. Modelling galaxy formation and the epoch of reionization.* [MNRAS, 462, 250–276](https://doi.org/10.1093/mnras/stw1506).
+- **Qin et al. (2017).** *DRAGONS X. The small contribution of quasars to reionization.* [MNRAS, 472, 2009–2027](https://doi.org/10.1093/mnras/stx1909).
+- **Qiu et al. (2019).** *DRAGONS XIX. Predictions of infrared excess and cosmic star formation rate density from UV observations.* [MNRAS, 489, 1357–1372](https://doi.org/10.1093/mnras/stz2233).
+- **Balu et al. (2023).** *Thermal and reionization history within a large-volume semi-analytic galaxy formation simulation.* [MNRAS, 520, 3368–3382](https://doi.org/10.1093/mnras/stad281).
+- **Ventura et al. (2024).** *Semi-analytic modelling of Pop. III star formation and metallicity evolution – I. Impact on the UV luminosity functions at z = 9–16.* [MNRAS, 529, 628–646](https://doi.org/10.1093/mnras/stae567).
 
-The complementary [DRAGONS package](https://meraxes-devs.github.io/dragons/)
-reads and analyses Meraxes outputs, and
-[Sector](https://github.com/meraxes-devs/sector) supplies spectral synthesis
-and photometry.
+See [References](references.md) for the full bibliography.
 
 ```{toctree}
 :maxdepth: 2

@@ -48,8 +48,8 @@ Tables below use the standard simulation units. Masses labelled `10¹⁰ Msun/h`
 | --- | --- |
 | Galaxy catalogue and merger indices | Selected snapshot, ordinary output mode; omitted for `FlagInteractive = 2`. |
 | Enabled distributions | Selected snapshot; also available in summary-only mode. |
-| Full radiation cubes | `Flag_PatchyReion`, `Flag_OutputGrids`, and an active reionization/output gate. `Flag_OutputGridsPostReion` extends output after reionization. |
-| Thermal input/source cubes | Selected thermal-solver outputs; written independently of `Flag_OutputGrids`. |
+| Source and density cubes | Selected snapshot during ionization (`Flag_OutputGrids`) or thermal evolution (`Flag_IncludeSpinTemp`, independent of `Flag_OutputGrids`). |
+| Ionization, thermal, 21-cm and LW products | Selected snapshot with `Flag_PatchyReion` and `Flag_OutputGrids` while reionization or lightcone evolution is active. `Flag_OutputGridsPostReion` extends output after reionization. |
 | Global grid summaries | May be written without cubes, using empty datasets of shape `(0,)` to hold attributes. |
 
 `FlagMCMC` uses a separate output workflow. Check a grid's shape before treating it as a cube; empty attribute holders still contain useful global histories.
@@ -179,6 +179,8 @@ These integer arrays use rank-local rows, with −1 for missing connections. Lin
 
 ## Radiation grids
 
+All datasets in this section are at `SnapNNN/Grids/<dataset>` in the master file, linked to `/<dataset>` in `OutputDir/<p>_grids_<s>.hdf5`. This includes source grids, ionization and thermal fields, 21-cm lightcones and power spectra, and LW diagnostics.
+
 A full field is a float32 cube with `ReionGridDim` cells per axis. Cubes are uncompressed, chunked by x plane, and occupy four bytes per cell. Lightcones, power spectra, and spectral diagnostics have the alternative shapes listed below.
 
 | Abbreviation | Configuration |
@@ -191,18 +193,16 @@ A full field is a float32 cube with `ReionGridDim` cells per axis. Cubes are unc
 | LC / PS | `Flag_ConstructLightcone` / `Flag_ComputePS` |
 | Mini / LW | `USE_MINI_HALOS` / `Flag_IncludeLymanWerner` |
 
-Conditions below apply within the output gates listed above. **`stars` is a saved grid dataset:** each cell sums the cumulative escape-weighted formed stellar mass deposited by galaxies. It is produced during source-grid construction, alongside rate grids, and supplies the ionization calculation.
-
 ### Source grids
 
 | Dataset | Meaning | Additional condition | Unit |
 | --- | --- | --- | --- |
-| `deltax` | Simulation density contrast. | Source writer | — |
-| `stars(III)` | Cell sum of cumulative escaped stellar-source mass, including enabled stochastic treatment and recalibration. | Source writer | 10¹⁰ Msun/h |
-| `weighted_sfr(III)` | Cell sum of escape-weighted stellar SFR. | Source writer | Msun/yr |
-| `effective_bhm` | Cumulative AGN budget in equivalent stellar-source mass; only BHs above `BlackHoleMassLimitReion`. | Source writer + BH | 10¹⁰ Msun/h; unregistered |
-| `effective_bhar` | Equivalent AGN source rate with the same mass selection. | Source writer + BH | Msun/yr |
-| `sfr(III)` | Unweighted thermal source rate from the configured SFR or mass/timescale prescription. | Source writer + Spin | Msun/yr; unregistered |
+| `deltax` | Simulation density contrast. | — | — |
+| `stars(III)` | Cell sum of cumulative escaped stellar-source mass, including enabled stochastic treatment and recalibration. | — | 10¹⁰ Msun/h |
+| `weighted_sfr(III)` | Cell sum of escape-weighted stellar SFR. | — | Msun/yr |
+| `effective_bhm` | Cumulative AGN budget in equivalent stellar-source mass; only BHs above `BlackHoleMassLimitReion`. | BH | 10¹⁰ Msun/h; unregistered |
+| `effective_bhar` | Equivalent AGN source rate with the same mass selection. | BH | Msun/yr |
+| `sfr(III)` | Unweighted thermal source rate from the configured SFR or mass/timescale prescription. | Spin | Msun/yr; unregistered |
 
 Stochastic X-ray luminosity and AGN hard/soft source arrays are not saved as full cubes; `sfr` does not contain their luminosity draws.
 
@@ -210,9 +210,9 @@ Stochastic X-ray luminosity and AGN hard/soft source arrays are not saved as ful
 
 | Dataset | Meaning | Additional condition | Unit |
 | --- | --- | --- | --- |
-| `xH` | Neutral hydrogen fraction. | Full-grid writer | — |
-| `r_bubble` | Ionized-bubble/filter radius; populated by the recombination treatment. | Full-grid writer | cMpc/h |
-| `temp_kinetic_all_gas` | Temperature diagnostic combining neutral and ionized gas. | Full-grid writer | K |
+| `xH` | Neutral hydrogen fraction. | — | — |
+| `r_bubble` | Ionized-bubble/filter radius; populated by the recombination treatment. | — | cMpc/h |
+| `temp_kinetic_all_gas` | Temperature diagnostic combining neutral and ionized gas. | — | K |
 | `z_at_ionization` | Redshift of first full cell ionization. | Rec | — |
 | `residual_xH` | Scaled subgrid residual neutral fraction. | Rec | Stored at 10⁴ times its unscaled value |
 | `clumping_factor` | Ionized-gas clumping factor. | Rec | — |
@@ -258,7 +258,7 @@ Mini + Spin + LW also produces float64 shell/spectral arrays. Here `F` denotes `
 
 ## Global grid attributes
 
-Attributes store box-wide summaries without requiring a full cube read. Each is a one-element float64 value attached to the dataset named in the first column. Volume weighting averages cells; mass weighting weights them by density. Attributes retain the calculation's normalization.
+Attributes store box-wide summaries without requiring a full cube read. Each is a one-element float64 attribute on `SnapNNN/Grids/<dataset>` in the master, equivalent to `/<dataset>` in the corresponding grid file. Volume weighting averages cells; mass weighting weights them by density. Attributes retain the calculation's normalization.
 
 ### Ionization and source summaries
 
@@ -297,7 +297,7 @@ For a rate density, divide a per-cell source average by cell volume. The low-red
 
 ## Metal grids
 
-`Snap/MetalGrids` requires Mini and `Flag_IncludeMetalEvo`. Fields are float32 cubes with `MetalGridDim` cells per axis, uncompressed and chunked by x plane.
+`SnapNNN/MetalGrids/<dataset>` links to `/<dataset>` in `OutputDir/<p>_metal_grids_<s>.hdf5` and requires Mini and `Flag_IncludeMetalEvo`. Fields are float32 cubes with `MetalGridDim` cells per axis, uncompressed and chunked by x plane.
 
 | Dataset | Meaning | Standard stored unit |
 | --- | --- | --- |
@@ -313,7 +313,7 @@ IGM-polluting bubbles must extend to at least three virial radii. `Max Radius` c
 
 ## Mass and luminosity functions
 
-Each distribution is linked directly under `Snap`. It is a float64 array with three columns: **bin center, number density, uncertainty**. Attributes are `n_bins`, `x_min`, `x_max`, `bin_width`, `volume`, `description`, `units`, and `columns` (stored as `center,density,uncertainty`).
+Each distribution is at `SnapNNN/<dataset>` in the master, linked to the same path in `OutputDir/<p>_0.hdf5`. It is a float64 array with three columns: **bin center, number density, uncertainty**. Attributes are `n_bins`, `x_min`, `x_max`, `bin_width`, `volume`, `description`, `units`, and `columns` (stored as `center,density,uncertainty`).
 
 | Dataset | Configuration | Coordinate and selection | Density unit |
 | --- | --- | --- | --- |
@@ -331,7 +331,7 @@ Photometric distributions require a target photometry snapshot. X-ray distributi
 
 ### X-ray diagnostics
 
-`Flag_OutputXrayLF` also writes these root-level float64 datasets. The emissivity histories require Spin and are indexed by simulation snapshot number.
+`Flag_OutputXrayLF` also writes these float64 datasets at the root of the master file, `OutputDir/<p>.hdf5`. The emissivity histories require Spin and are indexed by simulation snapshot number.
 
 | Dataset | Shape | Meaning |
 | --- | --- | --- |

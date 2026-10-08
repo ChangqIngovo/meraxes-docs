@@ -9,20 +9,12 @@ radiation calculations also require simulation density grids.
 | Input | Location or contents |
 |---|---|
 | Snapshot times | `SimulationDir/a_list.txt`: expansion factors in snapshot order. |
-| SWIFT grids | `grids/snap_%04d.hdf5`; `/PartType1/Grids/{Density,Vx,Vy,Vz}`. |
-| Postprocessed VELOCIraptor grids | `grids/snapshot_%03d.den.i` and `grids/snapshot_%03d.vel.i`; root datasets `Density`, `Vx`, `Vy`, `Vz`. |
-| gbpTrees grids | `grids/snapshot_%03d_dark_grid.dat`; density followed by three velocity fields. |
 | Cooling | `CoolingFuncsDir/SD93.hdf5`: metallicity-dependent cooling curves. |
 | Stellar feedback | `StellarFeedbackDir/stellar_feedback_tables.hdf5`: ages, mass return, metal yields and energy. |
 | Thermal evolution | `TablesForXHeatingDir`: recombination history, stellar spectra, collision rates and secondary-ionization tables. |
 | Photometry | `PhotometricTablesDir/sed_library.hdf5`, enabled filters and Pop. III SEDs when applicable. |
 | Recombination cache | `RecombinationDir`; missing interpolation tables are generated. |
 
-Snapshot and grid paths are relative to `SimulationDir`. `%03d` and `%04d` denote
-zero-padded snapshot numbers; `i` is the split-file index. Input grids contain
-density, which Meraxes converts to overdensity. Their resolution must be an
-integer multiple of `ReionGridDim`. Peculiar-velocity calculations require
-velocity grids and `Flag_IncludeSpinTemp=1`.
 
 ## Parameter files
 
@@ -84,20 +76,6 @@ Use the cosmology and units of the input simulation.
 | `UnitMass_in_g` | Internal mass scale in g. |
 | `UnitVelocity_in_cm_per_s` | Internal velocity scale in cm s⁻¹. |
 
-### Optional histories and selection
-
-| Parameter | Default | Meaning / units |
-|---|---|---|
-| `ForestIDFile` | Empty | Forest-selection file: count, then one forest ID per line. |
-| `MvirCritFile` | Empty | Precomputed UVB infall-suppression critical-mass history. |
-| `MvirCritMCFile` | Empty | Precomputed molecular-cooling/minihalo critical-mass history. |
-| `MassRatioModifier` | Empty | Halo-mass correction table path. |
-| `BaryonFracModifier` | Empty | Halo baryon-fraction correction table path. |
-| `Flag_BHObscuedIonization` | Not set | Legacy flag; unused by the BH ionizing-emissivity calculation. |
-
-Critical-mass histories contain one value per snapshot in `mean_Mvir_crit`
-or `mean_Mvir_crit_MC`. Correction tables contain mass bins and mass-ratio
-or baryon-fraction statistics, grouped by snapshot.
 
 ## Model parameters
 
@@ -143,7 +121,6 @@ are given in parentheses. Omit the parentheses in parameter files.
 | `Flag_IncludeLymanWerner` | `0` | Minihalo Lyman–Werner radiation feedback. |
 | `Flag_IncludeMetalEvo` | `0` | Minihalo external IGM metal-enrichment calculation. |
 | `Flag_IncludeStreamVel` | `0` | Minihalo baryon–dark-matter streaming-velocity treatment. |
-| `Flag_RemoveSFRScatter` | `0` | Remove SFR scatter from radiation sources at fixed halo mass. |
 
 </details>
 
@@ -167,7 +144,6 @@ are given in parentheses. Omit the parentheses in parameter files.
 | Parameter | Default | Meaning / units |
 |---|---|---|
 | `LXrayGal(III)` | `3.16e40` | Galaxy soft-band luminosity per SFR, (erg s⁻¹)/(M☉ yr⁻¹). |
-| `XrayScatterDex` | `0.0` | Scatter in log10 galaxy X-ray luminosity at fixed SFR, dex. |
 | `SpecIndexXrayGal` / `SpecIndexXrayIII` | `1.` | Pop. II / optional Pop. III X-ray spectral index. |
 | `NuXrayThreshold` | `500.` | Lower escaping X-ray photon energy, eV. |
 | `NuXraySoftCut` | `2000.` | Soft/hard X-ray break or upper soft-band energy, eV. |
@@ -305,8 +281,6 @@ are given in parentheses. Omit the parentheses in parameter files.
 | `EscapeFracPropScaling` | `0.5` | Galaxy-property exponent for property-dependent escape fractions. |
 | `EscapeFracBHNorm` | `1` | BH escape-fraction normalization. |
 | `EscapeFracBHScaling` | `0` | BH escape-fraction redshift exponent. |
-| `EscapeFracScatterDex` | `0.0` | Scatter in log10 stellar escape fraction, dex. |
-| `Flag_SourceRecalibration` | `0` | Match modified source budgets to the untreated galaxy population in the same run. |
 | `FescCGMSuppressionNorm` | `0.00008` | CGM suppression normalization. |
 | `FescCGMSuppressionScaling` | `0.2` | CGM column-density exponent. |
 | `FescCGMGamma12Scaling` | `6.0` | CGM UVB/clumping modulation exponent. |
@@ -324,6 +298,28 @@ are given in parentheses. Omit the parentheses in parameter files.
 | `EndRedshiftLightcone` | `5.0` | Low-redshift endpoint of the requested lightcone. |
 | `ReionRBubbleMaxRecomb` | `33.9` | Fixed maximum radius with recombinations, cMpc/h; superseded by the evolving-radius flag. |
 | `ReionMaxHeatingRedshift` | `30.` | Maximum heating redshift; no higher than the first snapshot redshift. |
+
+</details>
+
+<details>
+<summary>Stochasticity</summary>
+
+Enable `USE_STOCHASTICITY` at compilation to modify stellar radiation sources.
+
+| Parameter | Default | Meaning |
+|---|---|---|
+| `EscapeFracScatterDex` | `0.0` | Scatter in log10 stellar escape fraction, dex. |
+| `Flag_RemoveSFRScatter` | `0` | Remove SFR scatter from radiation sources at fixed halo mass. |
+| `XrayScatterDex` | `0.0` | Scatter in log10 galaxy X-ray luminosity at fixed SFR, dex. |
+| `Flag_SourceRecalibration` | `0` | Match modified source budgets to the untreated galaxy population in the same run. |
+
+Escape-fraction scatter and median-SFR sources are mutually exclusive.
+X-ray scatter can accompany either and requires `Flag_IncludeSpinTemp=1`.
+Recalibration requires an active treatment and restores the corresponding
+untreated source budgets. `RandomSeed` sets the random generator.
+
+See the [escape-fraction and scatter formulas](formulas/galaxies.md#stellar-radiation)
+and [source normalization](formulas/igm.md#source-normalization).
 
 </details>
 
@@ -372,33 +368,3 @@ are given in parentheses. Omit the parentheses in parameter files.
 | `OIIILF_BinsPerDex` | `2` | [O III] luminosity bins per dex. |
 
 </details>
-
-## Feature combinations
-
-| Requested calculation | Required settings |
-|---|---|
-| Coupled galaxy–IGM evolution | `Flag_PatchyReion=1`; `ReionUVBFlag=1` or `2`. |
-| Thermal history | Coupled evolution and `Flag_IncludeSpinTemp=1`. |
-| 21-cm power spectrum | `Flag_Compute21cmBrightTemp=1` and `Flag_ComputePS=1`. |
-| Lightcone | Coupled brightness history and `Flag_ConstructLightcone=1`. |
-| X-ray luminosity functions | `Flag_OutputXrayLF=1` and `Flag_IncludeSpinTemp=1`. |
-| Minihalo star formation | `USE_MINI_HALOS=ON` and `SfPrescription=1`. |
-| Stellar escape-fraction scatter | `USE_STOCHASTICITY=ON`, positive `EscapeFracScatterDex` and `Flag_RemoveSFRScatter=0`. |
-| Median-SFR radiation sources (noSFR) | `USE_STOCHASTICITY=ON`, `Flag_RemoveSFRScatter=1` and `EscapeFracScatterDex=0`. |
-| Stellar X-ray scatter | `USE_STOCHASTICITY=ON`, positive `XrayScatterDex` and `Flag_IncludeSpinTemp=1`; may accompany either stellar-source treatment above. |
-| Source-budget recalibration | `Flag_SourceRecalibration=1` with at least one active source treatment. |
-
-For a coupled source-scatter experiment, retain `Flag_PatchyReion=1` and
-`ReionUVBFlag=1` or `2`. For example, `EscapeFracScatterDex=0.3` adds 0.3 dex
-escape-fraction scatter; alternatively, `Flag_RemoveSFRScatter=1` uses median
-radiation-source SFRs at fixed halo mass. These two treatments are mutually
-exclusive. Use finite, non-negative scatter widths and `0` or `1` for flags.
-Recalibration matches the applicable untreated budgets of the same run;
-leave it off to measure the change in total emission.
-
-`RandomSeed` controls the random generator. Reproducing a realization also
-requires the same MPI rank count, forest assignment and enabled random draws.
-
-The [workflow](workflow.md) shows when these inputs are used.
-Physical prescriptions and unit conversions are collected in
-[Formulas](formulas/index.md).
