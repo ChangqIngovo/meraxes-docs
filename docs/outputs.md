@@ -40,6 +40,8 @@ A snapshot is named `SnapNNN`, with a minimum of three digits. Grid filenames us
 
 Tables below use the standard simulation units. Masses labelled `10¹⁰ Msun/h` require multiplication by 10¹⁰ and division by `Hubble_h`; `Sfr` is already in Msun/yr. Positions are comoving, while virial and disk radii are physical. Raw `h5py` reads retain all h factors. A dash denotes dimensionless values or identifiers. Numeric attributes are commonly one-element arrays.
 
+**Mini-halo notation.** `(III)` marks an additional Pop III quantity enabled by `USE_MINI_HALOS` (`Mini`): `stars(III)` means `stars` and `starsIII`, and `Fesc(III)WeightedSfr` means `FescWeightedSfr` and `FescIIIWeightedSfr`. Parentheses are not literal. `(II)` also requires Mini, but identifies the radiation/thermal channel **without Pop III sources**, retaining AGN contributions and the model's ionization field.
+
 ### What is saved
 
 | Product | Output condition |
@@ -67,6 +69,7 @@ All scalar real fields below are float32; integer fields and array shapes are sh
 | `Type` | int32 | 0: central; 1: resolved satellite; 2: orphan. | — |
 | `CentralGal` | int32 | Rank-local central-galaxy row; −1 for ghosts. | — |
 | `GhostFlag` | int32 | Galaxy carried across a missing/skipped halo. | — |
+| `Galaxy_Population` | int32 | 2: Pop II; 3: Pop III. Mini. | — |
 | `Len` | int32 | Current or retained subhalo particle count. | — |
 | `MaxLen` | int32 | Largest historical subhalo particle count. | — |
 | `Pos` | float32[3] | Comoving position; orphans retain their last resolved position. | cMpc/h |
@@ -100,16 +103,20 @@ All scalar real fields below are float32; integer fields and array shapes are sh
 | `MetalsEjectedGas` | float32 | Metal mass in ejected gas. | 10¹⁰ Msun/h |
 | `BaryonFracModifier` | float32 | Suppression factor applied to baryon infall. | — |
 | `MvirCrit` | float32 | Local UV-background critical halo mass. | 10¹⁰ Msun/h |
+| `MvirCrit_MC` | float32 | Molecular-cooling critical mass. Mini. | 10¹⁰ Msun/h |
 | `StellarMass` | float32 | Surviving stellar mass after recycling. | 10¹⁰ Msun/h |
-| `GrossStellarMass` | float32 | Total stellar mass formed before recycling. | 10¹⁰ Msun/h |
+| `Pop2StellarMass`, `Pop3StellarMass` | float32 | Surviving Pop II and Pop III stellar masses. Mini. | 10¹⁰ Msun/h |
+| `RemnantMass` | float32 | Stellar remnant mass. Mini. | 10¹⁰ Msun/h |
+| `GrossStellarMass(III)` | float32 | Total formed stellar mass before recycling. | 10¹⁰ Msun/h |
 | `MetalsStellarMass` | float32 | Stellar metal-mass bookkeeping. | 10¹⁰ Msun/h |
 | `Sfr` | float32 | Snapshot star-formation rate. | Msun/yr |
 | `NewStars` | float32[H] | Formed stellar mass per snapshot; index 0 is most recent. | 10¹⁰ Msun/h |
+| `NewStarsPop2`, `NewStarsPop3` | float32[H] | Pop II and Pop III formation histories, newest first. Mini. | 10¹⁰ Msun/h |
 | `MergerBurstMass` | float32 | Cumulative mass formed in merger bursts. | 10¹⁰ Msun/h |
 | `MWMSA` | float32 | Mass-weighted mean stellar age. | See unit notes below |
-| `Fesc` | float32 | Untreated stellar ionizing escape fraction. | — |
-| `FescWeightedSfr` | float32 | Untreated escape-weighted stellar SFR. | Msun/yr |
-| `FescWeightedGSM` | float32 | Cumulative untreated escape-weighted formed stellar mass. | 10¹⁰ Msun/h |
+| `Fesc(III)` | float32 | Untreated stellar ionizing escape fraction. | — |
+| `Fesc(III)WeightedSfr` | float32 | Untreated escape-weighted stellar SFR. | Msun/yr |
+| `Fesc(III)WeightedGSM` | float32 | Cumulative untreated escape-weighted formed stellar mass. | 10¹⁰ Msun/h |
 | `tau_cgm` | float32 | CGM optical-depth term for escape suppression. | — |
 | `Cos_Inc` | float32 | Cosine of disk inclination used for attenuation. | — |
 | `LOIII` | float32 | Intrinsic [O III] luminosity. | 10⁴⁰ erg/s |
@@ -133,36 +140,24 @@ All scalar real fields below are float32; integer fields and array shapes are sh
 | `NHbin` | int32 | Column-density bin 0–4: log NH intervals 20–21, 21–22, 22–23, 23–24, 24–26; −1: no AGN. | Index; NH in cm⁻² |
 | `DutyCycleAGN` | float32 | AGN active fraction, bounded between 0 and 1. | — |
 
-### Optional galaxy fields
+### Enrichment and photometry
 
-The following 15 fields require `USE_MINI_HALOS`.
+Mini adds the following enrichment quantities.
 
 | Field | Type | Meaning | Unit |
 | --- | --- | --- | --- |
-| `Galaxy_Population` | int32 | Population: 2 for Pop II; 3 for Pop III. | — |
 | `Flag_ExtMetEnr` | int32 | External enrichment flag. | — |
-| `Pop2StellarMass` | float32 | Surviving Pop II stellar mass. | 10¹⁰ Msun/h |
-| `Pop3StellarMass` | float32 | Surviving Pop III stellar mass. | 10¹⁰ Msun/h |
-| `RemnantMass` | float32 | Stellar remnant mass. | 10¹⁰ Msun/h |
-| `GrossStellarMassIII` | float32 | Cumulative formed Pop III mass. | 10¹⁰ Msun/h |
-| `FescIIIWeightedSfr` | float32 | Untreated escape-weighted Pop III SFR. | Msun/yr |
 | `RmetalBubble` | float32 | Physical metal-bubble radius. | Mpc/h |
 | `MetalProbability` | float32 | Local grid enrichment probability. | — |
 | `GalMetalProbability` | float32 | Per-galaxy random variate compared with enrichment probability. | [0, 1) |
-| `MvirCrit_MC` | float32 | Molecular-cooling critical mass. | 10¹⁰ Msun/h |
-| `NewStarsPop2` | float32[H] | Pop II formation history, newest first. | 10¹⁰ Msun/h |
-| `NewStarsPop3` | float32[H] | Pop III formation history, newest first. | 10¹⁰ Msun/h |
-| `FescIII` | float32 | Untreated Pop III escape fraction. | — |
-| `FescIIIWeightedGSM` | float32 | Cumulative untreated escape-weighted Pop III formed mass. | 10¹⁰ Msun/h |
 
 `CALC_MAGS` adds photometry at configured target snapshots, in the configured band order.
 
 | Field | Type | Meaning | Unit |
 | --- | --- | --- | --- |
 | `LOIII_dusty` | float32 | Attenuated [O III] luminosity; initially intrinsic if no suitable rest-band attenuation exists. | 10⁴⁰ erg/s |
-| `Mags` | float32[B] | Intrinsic magnitudes. | mag |
+| `Mags(III)` | float32[B] | Intrinsic magnitudes. | mag |
 | `DustyMags` | float32[B] | Dust-attenuated magnitudes. | mag |
-| `MagsIII` | float32[B] | Pop III magnitudes; also requires `USE_MINI_HALOS`. | mag |
 
 ### Unit notes
 
@@ -203,11 +198,11 @@ Conditions below apply within the output gates listed above. **`stars` is a save
 | Dataset | Meaning | Additional condition | Unit |
 | --- | --- | --- | --- |
 | `deltax` | Simulation density contrast. | Source writer | — |
-| `stars` | Cell sum of untreated or stochastic cumulative escaped stellar-source mass, including enabled recalibration. | Source writer | 10¹⁰ Msun/h |
-| `weighted_sfr` | Cell sum of escape-weighted stellar SFR. | Source writer | Msun/yr |
+| `stars(III)` | Cell sum of cumulative escaped stellar-source mass, including enabled stochastic treatment and recalibration. | Source writer | 10¹⁰ Msun/h |
+| `weighted_sfr(III)` | Cell sum of escape-weighted stellar SFR. | Source writer | Msun/yr |
 | `effective_bhm` | Cumulative AGN budget in equivalent stellar-source mass; only BHs above `BlackHoleMassLimitReion`. | Source writer + BH | 10¹⁰ Msun/h; unregistered |
 | `effective_bhar` | Equivalent AGN source rate with the same mass selection. | Source writer + BH | Msun/yr |
-| `sfr` | Unweighted thermal source rate from the configured SFR or mass/timescale prescription. | Source writer + Spin | Msun/yr; unregistered |
+| `sfr(III)` | Unweighted thermal source rate from the configured SFR or mass/timescale prescription. | Source writer + Spin | Msun/yr; unregistered |
 
 Stochastic X-ray luminosity and AGN hard/soft source arrays are not saved as full cubes; `sfr` does not contain their luminosity draws.
 
@@ -226,58 +221,36 @@ Stochastic X-ray luminosity and AGN hard/soft source arrays are not saved as ful
 | `N_rec` | Cumulative recombinations per baryon. | Rec | — |
 | `J_21_at_ionization` | UV intensity retained at ionization and updated according to UVB mode. | UVB | 10⁻²¹ erg/s/Hz/cm²/sr; multiply by h² |
 | `Mvir_crit` | UVB suppression mass, sampled for subsequent galaxy evolution. | UVB | 10¹⁰ Msun/h |
-| `TS_box` | Hydrogen spin temperature. | Spin | K |
-| `Tk_box` | Kinetic temperature from the thermal solver. | Spin | K |
+| `TS_box(II)` | Hydrogen spin temperature. | Spin | K |
+| `Tk_box(II)` | Kinetic temperature from the thermal solver. | Spin | K |
 | `x_e_box` | Partial-ionization electron fraction, written from `x_e_box_prev`. | Spin | — |
-| `delta_T` | Coeval differential 21-cm brightness. | Bright | mK |
+| `delta_T(II)` | Coeval differential 21-cm brightness. | Bright | mK |
 | `LightconeBox` | Interpolated brightness; shape `(D, D, LightconeLength)`. | LC; final lightcone snapshot, excluding snapshot 0 | mK |
 | `lightcone-z` | Redshift per lightcone slice; length `LightconeLength`. | Same as `LightconeBox` | —; unregistered |
 | `k_bins` | Mean wavenumber per bin; length `PS_Length`. | PS | cMpc⁻¹; unregistered |
-| `PS_data` | Dimensional 21-cm power per logarithmic wavenumber interval; length `PS_Length`. | PS | mK² |
-| `PS_error` | Fourier-mode-count uncertainty; length `PS_Length`. | PS | mK² |
+| `PS(II)_data` | Dimensional 21-cm power per logarithmic wavenumber interval; length `PS_Length`. | PS | mK² |
+| `PS(II)_error` | Fourier-mode-count uncertainty; length `PS_Length`. | PS | mK² |
+| `Mvir_crit_MC` | LW molecular-cooling critical mass. | Mini + UVB + LW | 10¹⁰ Msun/h |
+| `JLW_box(II)` | LW intensity from stars and AGN; II: without Pop III. | Mini + LW | 10⁻²¹ erg/s/Hz/cm²/sr |
 
-`x_e_box` includes partial ionization and is not the complement of `xH`. The power normalization is given in [Formulas](formulas/igm.md).
+`x_e_box` includes partial ionization and is not the complement of `xH`. The power normalization is given in [Formulas](formulas/igm.md). `LightconeBoxII` is not written.
 
-### Mini-halo and LW products
+### LW spectral diagnostics
 
-All fields below require Mini. The `II` channel omits Pop III thermal/radiation sources but retains AGN contributions and uses the model's ionization field.
+Mini + Spin + LW also produces float64 shell/spectral arrays. Here `F` denotes `TsNumFilterSteps`, and `Q` denotes `LW_NLEV`. Their normalization belongs to the LW emissivity calculation; no unit registry is supplied. In each grouped row, the suffix identifies ordinary stars, Pop III stars, or AGN, respectively.
 
-| Dataset | Meaning | Additional condition | Unit |
-| --- | --- | --- | --- |
-| `starsIII` | Cell sum of cumulative escaped Pop III source mass. | Source writer | 10¹⁰ Msun/h |
-| `weighted_sfrIII` | Cell sum of escaped Pop III SFR. | Source writer | Msun/yr |
-| `sfrIII` | Unweighted Pop III thermal source rate. | Source writer + Spin | Msun/yr; unregistered |
-| `Mvir_crit_MC` | LW molecular-cooling critical mass. | UVB + LW | 10¹⁰ Msun/h |
-| `JLW_box` | Total LW intensity from stars and AGN. | LW | 10⁻²¹ erg/s/Hz/cm²/sr |
-| `JLW_boxII` | LW intensity without Pop III. | LW | Same as `JLW_box` |
-| `TS_boxII` | Spin temperature without Pop III heating/coupling. | Spin | K |
-| `Tk_boxII` | Kinetic temperature for that channel. | Spin | K |
-| `delta_TII` | Brightness for that channel. | Bright | mK |
-| `PSII_data` | Power of `delta_TII`; length `PS_Length`. | PS | mK² |
-| `PSII_error` | Corresponding mode-count uncertainty. | PS | mK² |
-
-Mini + Spin + LW also produces float64 shell/spectral arrays. Here `F` denotes `TsNumFilterSteps`, and `Q` denotes `LW_NLEV`. Their normalization belongs to the LW emissivity calculation; no unit registry is supplied.
-
-| Dataset | Shape | Meaning |
+| Datasets | Shape | Meaning |
 | --- | --- | --- |
-| `LW_shape_stellar` | `(F,)` | Ordinary-stellar spectral/survival factor per shell. |
-| `LW_shape_III` | `(F,)` | Pop III factor. |
-| `LW_shape_AGN` | `(F,)` | AGN factor. |
+| `LW_shape_stellar`, `LW_shape_III`, `LW_shape_AGN` | `(F,)` | Spectral/survival factor per shell. |
 | `LW_zpp` | `(F,)` | Source-emission redshift per shell. |
-| `LW_emissivity_stellar` | `(F,)` | Shell-dependent mean ordinary-stellar emissivity factor. |
-| `LW_emissivity_III` | `(F,)` | Pop III emissivity factor. |
-| `LW_emissivity_AGN` | `(F,)` | AGN factor, including its LW efficiency. |
-| `LW_spectral_stellar` | `(F, Q)` | Ordinary-stellar contributions per Lyman level. |
-| `LW_spectral_III` | `(F, Q)` | Pop III contributions per level. |
-| `LW_spectral_AGN` | `(F, Q)` | AGN contributions per level. |
-
-The spectral axis is indexed by Lyman level, beginning at level 2. `LightconeBoxII` is not written.
+| `LW_emissivity_stellar`, `LW_emissivity_III`, `LW_emissivity_AGN` | `(F,)` | Shell-dependent mean emissivity factor; the AGN term includes its LW efficiency. |
+| `LW_spectral_stellar`, `LW_spectral_III`, `LW_spectral_AGN` | `(F, Q)` | Contributions per Lyman level, starting at level 2. |
 
 ### Grid unit conventions
 
 | Dataset | Metadata detail |
 | --- | --- |
-| `TS_box`, `TS_boxII` | Unit keys are spelled `Ts_box`, `Ts_boxII`. |
+| `TS_box(II)` | Unit keys are spelled `Ts_box(II)`. |
 | `JLW_boxII` | Unit key is `JLW_box_II`. |
 | `starsIII`, `weighted_sfrIII` | Unit entries are created only with LW enabled. |
 | `J_21_at_ionization` | Legacy unit text says `10e-21`; the calculation uses the 10⁻²¹ intensity normalization. |
@@ -299,9 +272,8 @@ Attributes store box-wide summaries without requiring a full cube read. Each is 
 | `N_rec` | `volume_weighted_global_N_rec`, `mass_weighted_global_N_rec` | Mean recombinations per baryon; Rec. |
 | `residual_xH` | `volume_weighted_global_residual_xH`, `mass_weighted_global_residual_xH` | Mean scaled residual fraction; Rec. |
 | `clumping_factor` | `volume_weighted_global_clumping_factor`, `mass_weighted_global_clumping_factor` | Mean clumping factor; Rec. |
-| `weighted_sfr` | `volume_weighted_global_weighted_sfr` | Mean escaped stellar SFR per cell, Msun/yr. |
+| `weighted_sfr(III)` | `volume_weighted_global_weighted_sfr(III)` | Mean escaped stellar SFR per cell, Msun/yr. |
 | `effective_bhar` | `volume_weighted_global_effective_bhar` | Mean equivalent AGN source rate per cell, Msun/yr; BH. |
-| `weighted_sfrIII` | `volume_weighted_global_weighted_sfrIII` | Mean escaped Pop III SFR per cell, Msun/yr; Mini. |
 
 For a rate density, divide a per-cell source average by cell volume. The low-redshift optical-depth term extends to the last requested snapshot, with doubly ionized helium below redshift 4 and singly ionized helium above it.
 
@@ -309,25 +281,17 @@ For a rate density, divide a per-cell source average by cell volume. The low-red
 
 | Dataset | Attribute | Meaning / unit | Condition |
 | --- | --- | --- | --- |
-| `TS_box` | `volume_ave_TS` | Mean spin temperature, K. | Spin |
-| `Tk_box` | `volume_ave_TK` | Mean kinetic temperature, K. | Spin |
+| `TS_box(II)` | `volume_ave_TS(II)` | Mean spin temperature, K. | Spin |
+| `Tk_box(II)` | `volume_ave_TK(II)` | Mean kinetic temperature, K. | Spin |
 | `x_e_box` | `volume_ave_xe` | Mean partial-ionization electron fraction. | Spin |
-| `TS_box` | `volume_ave_J_alpha` | Mean Lyα photon-number specific intensity. | Spin |
+| `TS_box(II)` | `volume_ave_J_alpha(II)` | Mean Lyα photon-number specific intensity. | Spin |
 | `TS_box` | `volume_ave_xalpha` | Mean Wouthuysen–Field coupling with spectral correction. | Spin |
-| `TS_box` | `volume_ave_Xheat` | X-ray temperature derivative per redshift, K. | Spin |
-| `TS_box` | `volume_ave_Xion` | X-ray source contribution to electron-fraction derivative per redshift. | Spin |
-| `TS_box` | `volume_ave_Xheat_AGN_soft` | Soft-AGN temperature derivative per redshift, K. | Spin |
-| `TS_box` | `volume_ave_Xheat_AGN_hard` | Hard-AGN temperature derivative per redshift, K. | Spin |
-| `delta_T` | `volume_ave_Tb` | Mean coeval brightness, mK. | Bright |
-| `TS_boxII` | `volume_ave_TSII` | Mean spin temperature without Pop III sources, K. | Mini + Spin |
-| `Tk_boxII` | `volume_ave_TKII` | Mean kinetic temperature for that channel, K. | Mini + Spin |
-| `TS_boxII` | `volume_ave_J_alphaII` | Mean Lyα number intensity for that channel. | Mini + Spin |
-| `TS_boxII` | `volume_ave_XheatII` | X-ray temperature derivative for that channel, K per redshift. | Mini + Spin |
-| `TS_boxII` | `volume_ave_XionII` | X-ray source electron-fraction derivative for that channel, per redshift. | Mini + Spin |
-| `JLW_box` | `volume_ave_JLW` | Mean total LW intensity. | Mini + LW |
-| `JLW_boxII` | `volume_ave_JLW_II` | Mean LW intensity without Pop III. | Mini + LW |
+| `TS_box(II)` | `volume_ave_Xheat(II)` | X-ray temperature derivative per redshift, K. | Spin |
+| `TS_box(II)` | `volume_ave_Xion(II)` | X-ray source contribution to electron-fraction derivative per redshift. | Spin |
+| `TS_box` | `volume_ave_Xheat_AGN_soft`, `volume_ave_Xheat_AGN_hard` | Soft- and hard-AGN temperature derivatives per redshift, K. | Spin |
+| `delta_T(II)` | `volume_ave_Tb(II)` | Mean coeval brightness, mK. | Bright |
+| `JLW_box(II)` | `volume_ave_JLW(_II)` | Mean LW intensity; II: without Pop III. The attribute suffix includes an underscore. | Mini + LW |
 | `JLW_box` | `volume_ave_JLW_AGN` | Mean AGN LW intensity. | Mini + LW |
-| `delta_TII` | `volume_ave_TbII` | Mean brightness without Pop III thermal/radiation sources, mK. | Mini + Bright |
 
 `Xheat` excludes adiabatic, Compton, and changing-species terms; `Xion` excludes recombination. Positive heating or ionization gives a negative redshift derivative because time increases as redshift decreases. Storage on `TS_box` groups these summaries together; each attribute retains its own physical meaning.
 
@@ -381,32 +345,4 @@ Histories use erg/s/cm³ in the internal length normalization, retaining its h c
 
 ## Reading data
 
-Read metadata first, then select catalogue fields and grid slices. This example uses the latest available snapshot and the first rank catalogue.
-
-```python
-import h5py
-
-with h5py.File("output/meraxes.hdf5", "r") as f:
-    names = sorted((n for n in f if n.startswith("Snap")),
-                   key=lambda n: int(n[4:]))
-    snap = f[names[-1]]
-    print(dict(snap.attrs), list(snap))
-    print(dict(f["Units"].attrs))
-    print(dict(f["HubbleConversions"].attrs))
-
-    cores = sorted((n for n in snap if n.startswith("Core")),
-                   key=lambda n: int(n[4:]))
-    if cores and "Galaxies" in snap[cores[0]]:
-        galaxies = snap[cores[0]]["Galaxies"]
-        print(galaxies.shape, galaxies.dtype.names)
-        block = galaxies.fields(["ID", "StellarMass", "Sfr"])[:100_000]
-
-    if "Grids" in snap:
-        print(snap.get("Grids", getlink=True))
-        xh = snap["Grids/xH"]
-        print(xh.shape, dict(xh.attrs))
-        if xh.ndim == 3:
-            plane = xh[xh.shape[0] // 2, :, :]
-```
-
-For convenience readers and analysis examples, see the [DRAGONS documentation](https://meraxes-devs.github.io/dragons/). `h5py` is useful for selected fields, slices, and block reads; DRAGONS provides catalogue concatenation and supported h conversions.
+Read metadata before loading a catalogue or cube, then select the required fields and spatial slices. The [Post-processing tools](post-processing.md) page covers DRAGONS readers, unit conversions, galaxy histories, and analysis utilities.

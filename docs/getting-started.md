@@ -54,14 +54,27 @@ Edit the generated `input.par`:
 
 The [input reference](inputs.md) lists filenames, defaults and parameter meanings.
 
-## Run
+## Submit a run
 
-From the build directory:
+On Gadi, save this minimal submission file as `submit.pbs` in the build directory:
 
-```sh
-mpirun -np 4 ./bin/meraxes input.par
+```bash
+#!/bin/bash
+#PBS -P PROJECT
+#PBS -l ncpus=48,mem=128GB,walltime=04:00:00
+#PBS -l storage=gdata/PROJECT+scratch/PROJECT
+#PBS -l wd
+#PBS -V
+
+mpirun -np "$PBS_NCPUS" ./bin/meraxes input.par
 ```
 
-Replace `4` with the required MPI rank count. Each rank writes its galaxy
-catalogue; radiation grids are written collectively. The final master file
-links these products for [analysis](outputs.md).
+Replace `PROJECT`, adjust resources and include the storage projects used by
+the run. Submit with the build modules loaded; `-V` inherits that environment.
+
+```sh
+qsub submit.pbs
+```
+
+See NCI's [PBS guide](https://opus.nci.org.au/spaces/Help/pages/90308829/PBS+Directives+Explained)
+for scheduler options and [Post-processing tools](post-processing.md) for analysing results.

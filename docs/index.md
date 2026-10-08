@@ -80,6 +80,8 @@ reionization.
 
 Start with [Configuration and compilation](getting-started.md), then follow
 [Inputs](inputs.md), [Workflow](workflow.md) and [Outputs](outputs.md).
+[Post-processing tools](post-processing.md) covers reading catalogues and
+grids, tracking galaxy histories and constructing statistics with DRAGONS.
 [Formulas](formulas/index.md) collects the physical and numerical
 prescriptions in one place.
 
@@ -96,6 +98,7 @@ getting-started
 inputs
 workflow
 outputs
+post-processing
 formulas/index
 references
 ```

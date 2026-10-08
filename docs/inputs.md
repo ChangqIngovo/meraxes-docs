@@ -1,16 +1,14 @@
 # Inputs and configuration
 
 Meraxes requires halo merger trees, a snapshot list, physical tables and run
-parameters. Spatial radiation calculations also require simulation density grids.
+parameters. Merger trees are supplied by the N-body simulation. Spatial
+radiation calculations also require simulation density grids.
 
 ## Input files
 
 | Input | Location or contents |
 |---|---|
 | Snapshot times | `SimulationDir/a_list.txt`: expansion factors in snapshot order. |
-| VELOCIraptor trees (`TreesID=0`) | `trees/<CatalogFilePrefix>` and `trees/meraxes_augmented_stats.h5`. |
-| gbpTrees (`TreesID=1`) | `trees/horizontal_trees_%03d.hdf5`, `trees/forests_info.hdf5` and group/subgroup catalogues in `catalogs/`. |
-| Augmented VELOCIraptor trees (`TreesID=2`) | `augmented_trees/<CatalogFilePrefix>` and `augmented_trees/meraxes_augmented_stats.h5`. |
 | SWIFT grids | `grids/snap_%04d.hdf5`; `/PartType1/Grids/{Density,Vx,Vy,Vz}`. |
 | Postprocessed VELOCIraptor grids | `grids/snapshot_%03d.den.i` and `grids/snapshot_%03d.vel.i`; root datasets `Density`, `Vx`, `Vy`, `Vz`. |
 | gbpTrees grids | `grids/snapshot_%03d_dark_grid.dat`; density followed by three velocity fields. |
@@ -20,7 +18,7 @@ parameters. Spatial radiation calculations also require simulation density grids
 | Photometry | `PhotometricTablesDir/sed_library.hdf5`, enabled filters and Pop. III SEDs when applicable. |
 | Recombination cache | `RecombinationDir`; missing interpolation tables are generated. |
 
-Tree and grid paths are relative to `SimulationDir`. `%03d` and `%04d` denote
+Snapshot and grid paths are relative to `SimulationDir`. `%03d` and `%04d` denote
 zero-padded snapshot numbers; `i` is the split-file index. Input grids contain
 density, which Meraxes converts to overdensity. Their resolution must be an
 integer multiple of `ReionGridDim`. Peculiar-velocity calculations require
@@ -50,8 +48,8 @@ final snapshot greater than 1 for stellar-feedback initialization.
 |---|---|---|
 | `DefaultsFile` | Required | Default parameter file. |
 | `SimParamsFile` | Empty / optional | Simulation parameters, data locations and cosmology. |
-| `SimulationDir` | Required | Root containing `a_list.txt`, trees, catalogues and simulation grids. |
-| `CatalogFilePrefix` | Required | Catalogue/tree basename interpreted by the selected reader. |
+| `SimulationDir` | Required | Root of the external simulation data. |
+| `CatalogFilePrefix` | Required | Catalogue basename interpreted by the selected reader. |
 | `CoolingFuncsDir` | Required | Directory containing `SD93.hdf5`. |
 | `StellarFeedbackDir` | Required | Directory containing `stellar_feedback_tables.hdf5`. |
 | `TablesForXHeatingDir` | Required | Directory of thermal and radiative lookup tables. |
@@ -105,7 +103,13 @@ or baryon-fraction statistics, grouped by snapshot.
 
 The tables below give `defaults.par` values. Pop. III and minihalo settings
 require `USE_MINI_HALOS`; photometry requires `CALC_MAGS`; source scatter,
-no-SFR and recalibration require `USE_STOCHASTICITY`.
+noSFR and recalibration require `USE_STOCHASTICITY`.
+
+Parentheses abbreviate optional Pop. III counterparts: `SfEfficiency(_III)`
+means `SfEfficiency` and `SfEfficiency_III`; `EscapeFracNorm(III)` means
+`EscapeFracNorm` and `EscapeFracNormIII`. The III quantity requires
+`USE_MINI_HALOS`. A single default applies to both; differing III defaults
+are given in parentheses. Omit the parentheses in parameter files.
 
 <details>
 <summary>Execution controls</summary>
@@ -162,11 +166,9 @@ no-SFR and recalibration require `USE_STOCHASTICITY`.
 
 | Parameter | Default | Meaning / units |
 |---|---|---|
-| `LXrayGal` | `3.16e40` | Galaxy soft-band luminosity per SFR, (erg s⁻¹)/(M☉ yr⁻¹). |
+| `LXrayGal(III)` | `3.16e40` | Galaxy soft-band luminosity per SFR, (erg s⁻¹)/(M☉ yr⁻¹). |
 | `XrayScatterDex` | `0.0` | Scatter in log10 galaxy X-ray luminosity at fixed SFR, dex. |
-| `LXrayGalIII` | `3.16e40` | Pop. III soft-band luminosity per SFR, (erg s⁻¹)/(M☉ yr⁻¹). |
-| `SpecIndexXrayGal` | `1.` | Galaxy X-ray spectral index. |
-| `SpecIndexXrayIII` | `1.` | Pop. III X-ray spectral index. |
+| `SpecIndexXrayGal` / `SpecIndexXrayIII` | `1.` | Pop. II / optional Pop. III X-ray spectral index. |
 | `NuXrayThreshold` | `500.` | Lower escaping X-ray photon energy, eV. |
 | `NuXraySoftCut` | `2000.` | Soft/hard X-ray break or upper soft-band energy, eV. |
 | `NuXrayMax` | `10000.` | Upper X-ray integration energy, eV. |
@@ -191,12 +193,9 @@ no-SFR and recalibration require `USE_STOCHASTICITY`.
 |---|---|---|
 | `SfDiskVelOpt` | `1` | 1: Vmax; 2: Vvir in the star-formation disk prescription. |
 | `SfPrescription` | `1` | 1: critical surface density; 2: pressure-based molecular gas; 3: GALFORM cold-gas law. |
-| `SfEfficiency` | `0.08` | Star-formation efficiency normalization. |
-| `SfEfficiency_III` | `0.008` | Pop. III star-formation efficiency normalization. |
-| `SfEfficiencyScaling` | `0.0` | Redshift scaling of the star-formation efficiency. |
-| `SfEfficiencyScaling_III` | `0.0` | Pop. III counterpart of SfEfficiencyScaling. |
-| `SfCriticalSDNorm` | `0.2` | Critical surface-density normalization in internal units. |
-| `SfCriticalSDNorm_III` | `0.2` | Pop. III counterpart of SfCriticalSDNorm. |
+| `SfEfficiency(_III)` | `0.08` (III: `0.008`) | Star-formation efficiency normalization. |
+| `SfEfficiencyScaling(_III)` | `0.0` | Redshift scaling of the star-formation efficiency. |
+| `SfCriticalSDNorm(_III)` | `0.2` | Critical surface-density normalization in internal units. |
 | `PopIII_IMF` | `1` | 1: Sal500_001; 2: Sal500_050; 3: logA500_001; 4: logE500_001. |
 | `PopIIIAgePrescription` | `2` | 1: Schaerer strong-mass-loss lifetimes; 2: no-mass-loss lifetimes. |
 
@@ -209,33 +208,20 @@ no-SFR and recalibration require `USE_STOCHASTICITY`.
 |---|---|---|
 | `Flag_IRA` | `0` | Use instantaneous recycling instead of the delayed-feedback tables. |
 | `Flag_ReheatToFOFGroupTemp` | `0` | Reheat using the FoF virial temperature instead of the subhalo temperature. |
-| `SfRecycleFraction` | `0.25` | Instantaneous recycled mass fraction used by IRA. |
-| `SfRecycleFraction_III` | `0.25` | Pop. III IRA recycled fraction. |
-| `Yield` | `0.03` | IRA metal yield per unit formed stellar mass. |
-| `Yield_III` | `0.03` | Pop. III IRA metal yield. |
+| `SfRecycleFraction(_III)` | `0.25` | Instantaneous recycled mass fraction used by IRA. |
+| `Yield(_III)` | `0.03` | IRA metal yield per unit formed stellar mass. |
 | `SnModel` | `1` | 1: Guo-style velocity factors; 2: broken power-law velocity factors. |
-| `SnEjectionRedshiftDep` | `0.0` | SN energy redshift exponent. |
-| `SnEjectionRedshiftDep_III` | `0.0` | Pop. III counterpart of SnEjectionRedshiftDep. |
-| `SnEjectionEff` | `0.5` | SN energy efficiency normalization. |
-| `SnEjectionEff_III` | `0.5` | Pop. III counterpart of SnEjectionEff. |
-| `SnEjectionScaling` | `2.0` | SN energy high-velocity exponent. |
-| `SnEjectionScaling_III` | `2.0` | Pop. III counterpart of SnEjectionScaling. |
-| `SnEjectionScaling2` | `2.0` | SN energy low-velocity exponent. |
-| `SnEjectionScaling2_III` | `2.0` | Pop. III counterpart of SnEjectionScaling2. |
-| `SnEjectionNorm` | `70.0` | SN energy velocity pivot, km s⁻¹. |
-| `SnEjectionNorm_III` | `70.0` | Pop. III counterpart of SnEjectionNorm. |
-| `SnReheatRedshiftDep` | `0.0` | Reheating redshift exponent. |
-| `SnReheatRedshiftDep_III` | `0.0` | Pop. III counterpart of SnReheatRedshiftDep. |
-| `SnReheatEff` | `10.0` | Reheating efficiency normalization. |
-| `SnReheatEff_III` | `10.0` | Pop. III counterpart of SnReheatEff. |
-| `SnReheatLimit` | `10.0` | Reheating maximum mass-loading factor. |
-| `SnReheatLimit_III` | `10.0` | Pop. III counterpart of SnReheatLimit. |
-| `SnReheatScaling` | `0.0` | Reheating high-velocity exponent. |
-| `SnReheatScaling_III` | `0.0` | Pop. III counterpart of SnReheatScaling. |
-| `SnReheatScaling2` | `0.0` | Reheating low-velocity exponent. |
-| `SnReheatScaling2_III` | `0.0` | Pop. III counterpart of SnReheatScaling2. |
-| `SnReheatNorm` | `70.0` | Reheating velocity pivot, km s⁻¹. |
-| `SnReheatNorm_III` | `70.0` | Pop. III counterpart of SnReheatNorm. |
+| `SnEjectionRedshiftDep(_III)` | `0.0` | SN energy redshift exponent. |
+| `SnEjectionEff(_III)` | `0.5` | SN energy efficiency normalization. |
+| `SnEjectionScaling(_III)` | `2.0` | SN energy high-velocity exponent. |
+| `SnEjectionScaling2(_III)` | `2.0` | SN energy low-velocity exponent. |
+| `SnEjectionNorm(_III)` | `70.0` | SN energy velocity pivot, km s⁻¹. |
+| `SnReheatRedshiftDep(_III)` | `0.0` | Reheating redshift exponent. |
+| `SnReheatEff(_III)` | `10.0` | Reheating efficiency normalization. |
+| `SnReheatLimit(_III)` | `10.0` | Reheating maximum mass-loading factor. |
+| `SnReheatScaling(_III)` | `0.0` | Reheating high-velocity exponent. |
+| `SnReheatScaling2(_III)` | `0.0` | Reheating low-velocity exponent. |
+| `SnReheatNorm(_III)` | `70.0` | Reheating velocity pivot, km s⁻¹. |
 | `SnMetalRetentionFraction` | `0.0` | Fraction of reheated metals retained in cold gas; range 0–1. |
 
 </details>
@@ -313,8 +299,7 @@ no-SFR and recalibration require `USE_STOCHASTICITY`.
 | `ReionAlphaUV` | `2.0` | Stellar UV spectral index used in the UVB normalization. |
 | `ReionAlphaUVBH` | `2.0` | BH UV spectral index for UVB conversion. |
 | `EscapeFracDependency` | `1` | 0: constant; 1: redshift; 2: stellar mass; 3: SFR; 4: cold-gas surface density; 5: halo mass; 6: specific SFR. |
-| `EscapeFracNorm` | `0.06` | Stellar escape-fraction normalization. |
-| `EscapeFracNormIII` | `0.06` | Pop. III escape-fraction normalization. |
+| `EscapeFracNorm(III)` | `0.06` | Stellar escape-fraction normalization. |
 | `EscapeFracRedshiftOffset` | `6.0` | Escape-fraction redshift pivot. |
 | `EscapeFracRedshiftScaling` | `0.5` | Escape-fraction redshift exponent. |
 | `EscapeFracPropScaling` | `0.5` | Galaxy-property exponent for property-dependent escape fractions. |
