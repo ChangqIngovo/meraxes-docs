@@ -13,8 +13,6 @@ example Gadi module versions and their locations.
 | Parallel HDF5 | 1.12.2p | `/apps/hdf5/1.12.2p` | Read and write data; requires the C and high-level libraries. |
 | GSL and CBLAS | 2.7.1 | `$GSL_ROOT`, set by `module load gsl/2.7.1` | Integration, interpolation and random draws; includes `gslcblas`. |
 | FFTW | 3.3.10 | `/apps/fftw3/3.3.10-nci1` | Distributed grids; requires `fftw3f` and `fftw3f_mpi`. |
-| Make | System version: `make --version` | Locate with `command -v make` | Build the executable. |
-| Git | System version: `git --version` | Locate with `command -v git` | Record build metadata. |
 
 Load compatible compiler, MPI, HDF5 and FFTW modules before configuring.
 Use `module show <name>/<version>` to inspect include and library paths,
