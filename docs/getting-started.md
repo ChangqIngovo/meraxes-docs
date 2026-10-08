@@ -75,7 +75,7 @@ On Gadi, save this minimal submission file as `submit.pbs` in the build director
 ```bash
 #!/bin/bash
 #PBS -P PROJECT
-#PBS -l ncpus=48,mem=128GB,walltime=04:00:00
+#PBS -l ncpus=32,mem=256GB,walltime=06:00:00
 #PBS -l storage=gdata/PROJECT+scratch/PROJECT
 #PBS -l wd
 #PBS -V
