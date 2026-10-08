@@ -129,7 +129,7 @@ def output_tree():
     d.edge("snap","summaries","s","n",via=[(590,340),(1000,340)])
     d.edge("core","galdata")
     d.edge("grids","griddata")
-    d.save("output-tree.svg")
+    d.save("snapshot-structure.svg")
 
 
 if __name__ == "__main__":

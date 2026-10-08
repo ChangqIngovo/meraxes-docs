@@ -2,7 +2,7 @@
 
 Meraxes saves galaxy catalogues, radiation grids, and global statistics in HDF5 files. Open the master file to access these products through a single hierarchy.
 
-![Output files and snapshot contents](_static/output-tree.svg)
+![Output files and snapshot contents](_static/snapshot-structure.svg)
 
 ## Files and snapshots
 

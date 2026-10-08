@@ -36,6 +36,26 @@
 (ref-ventura2025)=
 **Ventura et al. (2025).** *Semi-analytical modelling of Pop. III star formation and metallicity evolution – II. Impact on 21 cm power spectrum.* MNRAS, 540, 483–497. [doi:10.1093/mnras/staf699](https://doi.org/10.1093/mnras/staf699).
 
+(ref-duffy2017)=
+**Duffy et al. (2017).** *Dark-ages reionization and galaxy formation simulation – IX. Economics of reionizing galaxies.* MNRAS, 470, 3300–3315. [doi:10.1093/mnras/stx1242](https://doi.org/10.1093/mnras/stx1242).
+
+## Halo structure and cosmology
+
+(ref-barkana2001)=
+**Barkana & Loeb (2001).** *In the beginning: the first sources of light and the reionization of the universe.* Physics Reports, 349, 125–238. [doi:10.1016/S0370-1573(01)00019-9](https://doi.org/10.1016/S0370-1573(01)00019-9).
+
+(ref-mo1998)=
+**Mo, Mao & White (1998).** *The formation of galactic discs.* MNRAS, 295, 319–336. [doi:10.1046/j.1365-8711.1998.01227.x](https://doi.org/10.1046/j.1365-8711.1998.01227.x).
+
+(ref-liddle1996)=
+**Liddle et al. (1996).** *Cold dark matter models with a cosmological constant.* MNRAS, 282, 281–290. [doi:10.1093/mnras/282.1.281](https://doi.org/10.1093/mnras/282.1.281).
+
+(ref-peebles1980)=
+**Peebles (1980).** *The Large-Scale Structure of the Universe.* Princeton University Press. [Publisher edition](https://www.jstor.org/stable/j.ctvxrpz4n).
+
+(ref-hogg1999)=
+**Hogg (1999).** *Distance measures in cosmology.* [arXiv:astro-ph/9905116](https://arxiv.org/abs/astro-ph/9905116).
+
 ## Gas, star formation and feedback
 
 (ref-sutherland1993)=
@@ -55,6 +75,18 @@
 
 (ref-muratov2015)=
 **Muratov et al. (2015).** *Gusty, gaseous flows of FIRE: galactic winds in cosmological simulations with explicit stellar feedback.* MNRAS, 454, 2691–2713. [doi:10.1093/mnras/stv2126](https://doi.org/10.1093/mnras/stv2126).
+
+(ref-hollenbach1979)=
+**Hollenbach & McKee (1979).** *Molecule formation and infrared emission in fast interstellar shocks. I. Physical processes.* ApJS, 41, 555–592. [doi:10.1086/190631](https://doi.org/10.1086/190631).
+
+(ref-galli1998)=
+**Galli & Palla (1998).** *The chemistry of the early Universe.* A&A, 335, 403–420. [arXiv:astro-ph/9803315](https://arxiv.org/abs/astro-ph/9803315).
+
+(ref-lagos2011)=
+**Lagos et al. (2011).** *On the impact of empirical and theoretical star formation laws on galaxy formation.* MNRAS, 416, 1566–1584. [doi:10.1111/j.1365-2966.2011.19160.x](https://doi.org/10.1111/j.1365-2966.2011.19160.x).
+
+(ref-cole2000)=
+**Cole et al. (2000).** *Hierarchical galaxy formation.* MNRAS, 319, 168–204. [doi:10.1046/j.1365-8711.2000.03879.x](https://doi.org/10.1046/j.1365-8711.2000.03879.x).
 
 ## AGN spectra and obscuration
 
@@ -84,7 +116,52 @@
 (ref-sobacchi2014)=
 **Sobacchi & Mesinger (2014).** *Inhomogeneous recombinations during cosmic reionization.* MNRAS, 440, 1662–1673. [doi:10.1093/mnras/stu377](https://doi.org/10.1093/mnras/stu377).
 
-## Stellar populations and dust
+(ref-furlanetto2004)=
+**Furlanetto, Zaldarriaga & Hernquist (2004).** *The Growth of H II Regions During Reionization.* ApJ, 613, 1–15. [doi:10.1086/423025](https://doi.org/10.1086/423025).
+
+(ref-sobacchi2013feedback)=
+**Sobacchi & Mesinger (2013).** *How does radiative feedback from an ultraviolet background impact reionization?* MNRAS, 432, 3340–3348. [doi:10.1093/mnras/stt693](https://doi.org/10.1093/mnras/stt693).
+
+(ref-gnedin2000)=
+**Gnedin (2000).** *Effect of Reionization on the Structure Formation in the Universe.* ApJ, 542, 535–541. [doi:10.1086/317042](https://doi.org/10.1086/317042).
+
+(ref-kravtsov2004)=
+**Kravtsov, Gnedin & Klypin (2004).** *The Tumultuous Lives of Galactic Dwarfs and the Missing Satellites Problem.* ApJ, 609, 482–497. [doi:10.1086/421322](https://doi.org/10.1086/421322).
+
+(ref-miralda2000)=
+**Miralda-Escudé, Haehnelt & Rees (2000).** *Reionization of the Inhomogeneous Universe.* ApJ, 530, 1–16. [doi:10.1086/308330](https://doi.org/10.1086/308330).
+
+(ref-mcquinn2016)=
+**McQuinn & Upton Sanderbeck (2016).** *On the intergalactic temperature–density relation.* MNRAS, 456, 47–54. [doi:10.1093/mnras/stv2675](https://doi.org/10.1093/mnras/stv2675).
+
+(ref-greig2018)=
+**Greig & Mesinger (2018).** *21CMMC with a 3D light-cone: the impact of the co-evolution approximation on the astrophysics of reionization and cosmic dawn.* MNRAS, 477, 3217–3229. [doi:10.1093/mnras/sty796](https://doi.org/10.1093/mnras/sty796).
+
+(ref-osterbrock1989)=
+**Osterbrock (1989).** *Astrophysics of Gaseous Nebulae and Active Galactic Nuclei.* University Science Books. [ADS](https://ui.adsabs.harvard.edu/abs/1989agna.book.....O/abstract).
+
+(ref-verner1996)=
+**Verner et al. (1996).** *Atomic Data for Astrophysics. II. New Analytic Fits for Photoionization Cross Sections of Atoms and Ions.* ApJ, 465, 487. [doi:10.1086/177435](https://doi.org/10.1086/177435).
+
+(ref-furlanetto2010)=
+**Furlanetto & Stoever (2010).** *Secondary ionization and heating by fast electrons.* MNRAS, 404, 1869–1878. [doi:10.1111/j.1365-2966.2010.16401.x](https://doi.org/10.1111/j.1365-2966.2010.16401.x).
+
+(ref-seager1999)=
+**Seager, Sasselov & Scott (1999).** *A New Calculation of the Recombination Epoch.* ApJ, 523, L1–L5. [doi:10.1086/312250](https://doi.org/10.1086/312250).
+
+(ref-munoz2023)=
+**Muñoz (2023).** *An effective model for the cosmic-dawn 21-cm signal.* [doi:10.1093/mnras/stad1512](https://doi.org/10.1093/mnras/stad1512).
+
+(ref-abel1997)=
+**Abel et al. (1997).** *Modeling primordial gas in numerical cosmology.* New Astronomy, 2, 181–207. [doi:10.1016/S1384-1076(97)00010-9](https://doi.org/10.1016/S1384-1076(97)00010-9).
+
+(ref-hirata2006)=
+**Hirata (2006).** *Wouthuysen–Field coupling strength and application to high-redshift 21-cm radiation.* MNRAS, 367, 259–274. [doi:10.1111/j.1365-2966.2005.09949.x](https://doi.org/10.1111/j.1365-2966.2005.09949.x).
+
+(ref-pritchard2006)=
+**Pritchard & Furlanetto (2006).** *Descending from on high: Lyman-series cascades and spin-kinetic temperature coupling in the 21-cm line.* MNRAS, 367, 1057–1066. [doi:10.1111/j.1365-2966.2006.10028.x](https://doi.org/10.1111/j.1365-2966.2006.10028.x).
+
+## Stellar populations, dust and emission lines
 
 (ref-charlot2000)=
 **Charlot & Fall (2000).** *A Simple Model for the Absorption of Starlight by Dust in Galaxies.* ApJ, 539, 718–731. [doi:10.1086/309250](https://doi.org/10.1086/309250).
@@ -94,5 +171,28 @@
 
 (ref-raiter2010)=
 **Raiter, Schaerer & Fosbury (2010).** *Predicted UV properties of very metal-poor starburst galaxies.* A&A, 523, A64. [doi:10.1051/0004-6361/201015236](https://doi.org/10.1051/0004-6361/201015236).
+
+(ref-heger2010)=
+**Heger & Woosley (2010).** *Nucleosynthesis and Evolution of Massive Metal-Free Stars.* ApJ, 724, 341–373. [doi:10.1088/0004-637X/724/1/341](https://doi.org/10.1088/0004-637X/724/1/341).
+
+(ref-fialkov2012)=
+**Fialkov et al. (2012).** *Impact of the relative motion between the dark matter and baryons on the first stars: semi-analytical modelling.* MNRAS, 424, 1335–1345. [doi:10.1111/j.1365-2966.2012.21318.x](https://doi.org/10.1111/j.1365-2966.2012.21318.x).
+
+(ref-fialkov2013)=
+**Fialkov et al. (2013).** *The 21-cm signature of the first stars during the Lyman–Werner feedback era.* MNRAS, 432, 2909–2916. [doi:10.1093/mnras/stt650](https://doi.org/10.1093/mnras/stt650).
+
+(ref-draine2011)=
+**Draine (2011).** *Physics of the Interstellar and Intergalactic Medium.* Princeton University Press. [Author's book page](https://www.astro.princeton.edu/~draine/book/).
+
+(ref-pathak2025)=
+**Pathak, Wyithe, Sutherland & Kewley (2025).** *A model for the emission-line galaxy luminosity function and flux ratios at high redshifts.* MNRAS, 539, 621–632. [doi:10.1093/mnras/staf545](https://doi.org/10.1093/mnras/staf545).
+
+(ref-yang2020)=
+**Yang & Lidz (2020).** *An analytic model for [O III] fine structure emission from high redshift galaxies.* MNRAS, 499, 3417–3433. [doi:10.1093/mnras/staa3000](https://doi.org/10.1093/mnras/staa3000).
+
+## Numerical methods
+
+(ref-fftw)=
+**FFTW documentation.** *Discrete Fourier transforms and array storage.* [Transform definitions](https://www.fftw.org/fftw3_doc/What-FFTW-Really-Computes.html), [multidimensional normalization](https://www.fftw.org/fftw3_doc/Multi_002ddimensional-Transforms.html), and [real-data array format](https://www.fftw.org/fftw3_doc/Real_002ddata-DFT-Array-Format.html).
 
 A broader list of Meraxes applications is available in the [Meraxes publication library](https://ui.adsabs.harvard.edu/public-libraries/CWUcYnt3TsmG6BuOKjR0Fw).

@@ -30,11 +30,15 @@ E(z)=\left[\Omega_{m,0}(1+z)^3+\Omega_{k,0}(1+z)^2+\Omega_{\Lambda,0}\right]^{1/
 \end{gathered}
 ```
 
+*References:* {ref}`Barkana & Loeb (2001), §2.1 <ref-barkana2001>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/virial_properties.c).
+
 ```{math}
 :label: gal-overdensity
 x=\Omega_m(z)-1,\qquad
 \Delta_{\rm vir}(z)=\frac{18\pi^2+82x-39x^2}{\Omega_m(z)}.
 ```
+
+*References:* [Meraxes virial convention](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/virial_properties.c).
 
 ```{math}
 :label: gal-virial-radius
@@ -45,6 +49,8 @@ R_{\rm vir}=\left[\frac{3M_{\rm vir}}{4\pi\Delta_{\rm vir}\rho_{\rm crit}}\right
 \end{gathered}
 ```
 
+*References:* [Meraxes virial convention](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/virial_properties.c).
+
 The overdensity convention above is paired with critical density. A tabulated factor $f_M$ modifies the group mass; $j_{\rm halo}$ is specific angular momentum.
 
 ```{math}
@@ -53,6 +59,8 @@ The overdensity convention above is paired with critical density. A tabulated fa
 M_{\rm vir,FOF}=f_M(\ell_M)M_{\rm vir,FOF}^{\rm unmodified}.
 ```
 
+*References:* {ref}`Qin et al. (2018), §3 <ref-qin2018xiv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/read_halos-velociraptor.c).
+
 ```{math}
 :label: gal-disk-radius
 \lambda=\frac{j_{\rm halo}}{\sqrt{2}\,V_{\rm vir}R_{\rm vir}},\qquad
@@ -60,11 +68,15 @@ R_d=\frac{\lambda R_{\rm vir}}{\sqrt{2}},\qquad
 R_{\rm SF}=3R_d.
 ```
 
+*References:* {ref}`Mo, Mao & White (1998), eq. 12 <ref-mo1998>`; {ref}`Mutch et al. (2016), §2.4 <ref-mutch2016>`.
+
 ```{math}
 :label: gal-virial-temperature
 T_{\rm vir,AC}=35.9\left(\frac{V_{\rm vir}}{\mathrm{km\,s^{-1}}}\right)^2\mathrm{K},\qquad
 T_{\rm vir,MC}=\min\left[73.8\left(\frac{V_{\rm vir}}{\mathrm{km\,s^{-1}}}\right)^2,10^4\right]\mathrm{K}.
 ```
+
+*References:* {ref}`Barkana & Loeb (2001), eq. 26 <ref-barkana2001>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/virial_properties.c).
 
 ```{math}
 :label: gal-temperature-mass
@@ -74,6 +86,8 @@ T_{\rm vir,MC}=\min\left[73.8\left(\frac{V_{\rm vir}}{\mathrm{km\,s^{-1}}}\right
 \left(\frac{T}{1.98\times10^4\mathrm{K}}\right)^{3/2}
 \left(\frac{1+z}{10}\right)^{-3/2},
 ```
+
+*References:* {ref}`Barkana & Loeb (2001), virial scaling <ref-barkana2001>`; [Meraxes temperature–mass conversion](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/virial_properties.c).
 
 The mean molecular weight is $\mu=1.22$ below approximately $10^4$ K and $0.59$ above. An evolution interval spans the galaxy's last identified halo snapshot to the current one.
 
@@ -89,16 +103,22 @@ M_{b,\rm FOF}=\sum_g\left(M_{\star,g}+M_{\rm cold,g}+M_{\rm hot,g}
 +M_{\rm ej,g}+M_{\rm BH,g}+M_{\rm BH,queued,g}\right).
 ```
 
+*References:* {ref}`Mutch et al. (2016), eq. 1 <ref-mutch2016>`; {ref}`Qin et al. (2018), §3 <ref-qin2018xiv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/infall.c).
+
 ```{math}
 :label: gal-infall
 f_{b,\rm eff}=f_{\rm UVB}f_{b,\rm tab},\qquad
 \Delta M_{\rm infall}=f_{b,\rm eff}f_bM_{\rm vir,FOF}-M_{b,\rm FOF}.
 ```
 
+*References:* {ref}`Mutch et al. (2016), eq. 1 <ref-mutch2016>`; {ref}`Qin et al. (2018), §3 <ref-qin2018xiv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/infall.c).
+
 ```{math}
 :label: gal-baryon-modifier-coordinate
 \ell=\log_{10}\left(\frac{M_{\rm vir,FOF}}{f_Mh}\right)+10,
 ```
+
+*References:* [Meraxes modifier-table coordinate](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/infall.c).
 
 Modifier tables use the linear interpolation in Equation {eq}`num-table-integration`.
 
@@ -116,6 +136,8 @@ $\Lambda(T,Z)$ is the cooling coefficient. An isothermal hot atmosphere supplies
 t_{\rm dyn,h}=\frac{R_{\rm vir}}{V_{\rm vir}}.
 ```
 
+*References:* {ref}`Mutch et al. (2016), §2.3 <ref-mutch2016>`; {ref}`Sutherland & Dopita (1993) <ref-sutherland1993>`.
+
 ```{math}
 :label: gal-cooling-radius
 \begin{gathered}
@@ -123,6 +145,8 @@ t_{\rm dyn,h}=\frac{R_{\rm vir}}{V_{\rm vir}}.
 r_{\rm cool}=\left[\frac{M_{\rm hot}}{4\pi R_{\rm vir}\rho(r_{\rm cool})}\right]^{1/2}.
 \end{gathered}
 ```
+
+*References:* {ref}`Mutch et al. (2016), §2.3 <ref-mutch2016>`; {ref}`Sutherland & Dopita (1993) <ref-sutherland1993>`.
 
 ```{math}
 :label: gal-cooling-mass
@@ -133,11 +157,15 @@ f_{\rm cool}\frac{M_{\rm hot}\delta t}{t_{\rm dyn,h}}
 \right].
 ```
 
+*References:* {ref}`Mutch et al. (2016), eq. 4 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/cooling.c).
+
 ```{math}
 :label: gal-cooling-transfer
 \Delta M_{\rm cool}=\min\left[M_{\rm hot},\max(0,\Delta M_{\rm cool,0}-\Delta M_{\rm heat,BH})\right],
 \qquad \Delta M_{Z,\rm cool}=Z_{\rm hot}\Delta M_{\rm cool}.
 ```
+
+*References:* {ref}`Qin et al. (2017b), §2.2 <ref-qin2017x>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/cooling.c).
 
 ### Molecular cooling
 
@@ -157,6 +185,8 @@ For molecular cooling, $\mu=1.22$, $T_3=T/(10^3\,\mathrm{K})$, and the interpola
 \end{aligned}
 ```
 
+*References:* {ref}`Hollenbach & McKee (1979), eqs. 6.37–6.38 <ref-hollenbach1979>`.
+
 ```{math}
 :label: gal-molecular-cooling
 \begin{aligned}
@@ -165,6 +195,8 @@ For molecular cooling, $\mu=1.22$, $T_3=T/(10^3\,\mathrm{K})$, and the interpola
 \Lambda_{\rm MC}&=\frac{\Lambda_{\rm LTE}}{1+\Lambda_{\rm LTE}/\Lambda_{\rm low}}.
 \end{aligned}
 ```
+
+*References:* {ref}`Galli & Palla (1998), eqs. A5–A7 <ref-galli1998>`.
 
 ### Return of ejected gas
 
@@ -177,6 +209,8 @@ The dynamical-time law uses dimensionless efficiency $\epsilon_{\rm reinc}$. The
 \epsilon_{\rm reinc}M_{\rm ej}\frac{\delta t}{t_{\rm dyn,h}}\right].
 ```
 
+*References:* {ref}`Croton et al. (2006) <ref-croton2006>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/reincorporation.c).
+
 ```{math}
 :label: gal-reincorporation-two
 \text{Model 2:}\qquad
@@ -184,6 +218,8 @@ t_{\rm reinc}=\max\left[t_{\rm dyn,h},\;
 \gamma_{\rm reinc}\frac{10^{10}M_\odot}{M_{\rm vir,FOF}^{\rm physical}}\right],\qquad
 \Delta M_{\rm reinc}=\min\left[M_{\rm ej},\;M_{\rm ej}\frac{\delta t}{t_{\rm reinc}}\right].
 ```
+
+*References:* {ref}`Henriques et al. (2013) <ref-henriques2013>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/reincorporation.c).
 
 ## Star formation
 
@@ -197,12 +233,16 @@ t_{\rm dyn,d}=\frac{R_{\rm SF}}{V_d},\qquad
 \alpha_{\rm SF}(z)=\alpha_{\rm SF,0}\,(1+z)^{\beta_{\rm SF}}.
 ```
 
+*References:* {ref}`Qin et al. (2018), §4.1 <ref-qin2018xiv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
+
 ```{math}
 :label: gal-critical-sf
 M_{\rm crit}=C_{\rm SF}\,V_dR_{\rm SF},\qquad
 \Delta M_{\star,0}=\alpha_{\rm SF}(z)
 \frac{[M_{\rm cold}-M_{\rm crit}]_+}{t_{\rm dyn,d}}\delta t,
 ```
+
+*References:* {ref}`Mutch et al. (2016), eqs. 5–7 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
 
 ### Molecular-pressure law
 
@@ -218,6 +258,8 @@ Gas and stars occupy exponential disks. The pressure relation uses SI units and 
 \end{gathered}
 ```
 
+*References:* {ref}`Lagos et al. (2011), §2.3 <ref-lagos2011>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
+
 ```{math}
 :label: gal-pressure-molecular-fraction
 \begin{aligned}
@@ -228,17 +270,23 @@ f_{\rm mol}(r)&=\left[1+\left(\frac{P_{\rm ext}(r)}{4.79\times10^{-13}\,\mathrm{
 \end{aligned}
 ```
 
+*References:* {ref}`Blitz & Rosolowsky (2006) <ref-blitz2006>`; {ref}`Lagos et al. (2011), Appendix B2 <ref-lagos2011>`.
+
 ```{math}
 :label: gal-pressure-sf-integral
 M_{\rm H_2,int}=2\pi\int_0^{5R_d}r\,f_{\rm mol}(r)\Sigma_g(r)\,dr,\qquad
 \dot M_{\star,0}=\frac{\alpha_{\rm SF}(z)}{3\times10^8\,\mathrm{yr}}M_{\rm H_2,int}.
 ```
 
+*References:* {ref}`Duffy et al. (2017), molecular star-formation model <ref-duffy2017>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
+
 ```{math}
 :label: gal-hydrogen-masses
 M_{\rm H_2}=\min\left[M_{\rm H_2,int},(1-Y_{\rm He})M_{\rm cold}\right],\qquad
 M_{\rm HI}=(1-Y_{\rm He})M_{\rm cold}-M_{\rm H_2}.
 ```
+
+*References:* [Meraxes molecular and atomic gas bookkeeping](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
 
 $Y_{\rm He}$ is the helium mass fraction. The star-formation rate uses the uncapped molecular integral; the central molecular fraction differs from the integrated mass fraction.
 
@@ -250,6 +298,8 @@ $Y_{\rm He}$ is the helium mass fraction. The star-formation rate uses the uncap
 \left(\frac{200\,\mathrm{km\,s^{-1}}}{V_d}\right)^{1.5},\qquad
 \Delta M_{\star,0}=\frac{M_{\rm cold}}{\tau_\star}\delta t.
 ```
+
+*References:* {ref}`Cole et al. (2000), eq. 4.14 <ref-cole2000>`; [Meraxes GALFORM prescription](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
 
 Accepted star formation is limited by available cold gas and simultaneous reheating. The following updates precede stellar recycling; gross stellar mass retains all mass ever formed.
 
@@ -265,6 +315,8 @@ M_{\star,\rm gross}&\leftarrow M_{\star,\rm gross}+\Delta M_\star,&
 \end{aligned}
 ```
 
+*References:* [Meraxes reservoir updates](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/star_formation.c).
+
 ## Stellar recycling and supernova feedback
 
 ### Delayed and instantaneous returns
@@ -279,6 +331,8 @@ Z=\begin{cases}
 \end{cases}
 ```
 
+*References:* [Meraxes metallicity definition](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/misc_tools.c).
+
 ```{math}
 :label: gal-feedback-kernels
 \begin{gathered}
@@ -287,6 +341,8 @@ Y_i(Z)=\int_{a_i}^{b_i}\dot Y_Z(a,Z)\,da,\\
 e_i(Z)=\mathcal E(b_i,Z)-\mathcal E(a_i,Z).
 \end{gathered}
 ```
+
+*References:* {ref}`Qin et al. (2019), stellar evolution <ref-qin2019xv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/stellar_feedback.c); [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 ```{math}
 :label: gal-delayed-feedback
@@ -297,11 +353,15 @@ E_{\rm SN,raw}=\sum_i m_i e_i(Z_i).
 \end{gathered}
 ```
 
+*References:* {ref}`Qin et al. (2019), stellar evolution <ref-qin2019xv>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/stellar_feedback.c); [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-feedback-ages
 a_i=\frac{L_{s-i-1}+L_{s-i}}{2}-L_{s-1},\qquad
 b_i=\frac{L_{s-i-1}+L_{s-i}}{2}-L_s,
 ```
+
+*References:* {ref}`Mutch et al. (2016), §2.5.1 <ref-mutch2016>`; [Meraxes stellar-age bins](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/stellar_feedback.c).
 
 Instantaneous recycling replaces the return kernels by fixed fractions $R$ and $y_Z$; current-burst supernova energy remains age dependent.
 
@@ -310,6 +370,8 @@ Instantaneous recycling replaces the return kernels by fixed fractions $R$ and $
 \Delta M_{\rm rec}=R\,\Delta M_\star,\qquad
 \Delta M_{Z,\rm ret}=y_Z\,\Delta M_\star.
 ```
+
+*References:* {ref}`Mutch et al. (2016), §§2.6–2.7 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 ### Reheating and ejection
 
@@ -323,6 +385,8 @@ The two efficiency families control reheating ($q=\mathrm{rh}$) and energy coupl
 \qquad q\in\{\mathrm{rh},E\}.
 ```
 
+*References:* {ref}`Guo et al. (2011) <ref-guo2011>`; [Meraxes redshift-dependent extension](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-sn-muratov
 \epsilon_q(V_{\max},z)=\epsilon_{q,0}
@@ -331,17 +395,23 @@ The two efficiency families control reheating ($q=\mathrm{rh}$) and energy coupl
 \alpha_q(V)=\begin{cases}\alpha_{q,\rm low},&V<V_q,\\\alpha_{q,\rm high},&V\geq V_q.\end{cases}
 ```
 
+*References:* {ref}`Muratov et al. (2015) <ref-muratov2015>`; [Meraxes feedback prescription](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-sn-caps
 \epsilon_{\rm rh}\leftarrow\min(\epsilon_{\rm rh},\epsilon_{\rm rh,max}),\qquad
 \epsilon_E\leftarrow\min(\epsilon_E,1).
 ```
 
+*References:* {ref}`Mutch et al. (2016), eqs. 13–14 <ref-mutch2016>`; [Meraxes feedback limits](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-sn-reheating
 \Delta M_{\rm rh,0}=\epsilon_{\rm rh}\frac{E_{\rm SN,raw}}{e_{\rm SN,tot}},\qquad
 E_{\rm SN}=\epsilon_E E_{\rm SN,raw}.
 ```
+
+*References:* {ref}`Mutch et al. (2016), §§2.5–2.5.1 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 $e_{\rm SN,tot}$ is lifetime energy per formed stellar mass; $V_h$ describes the galaxy or group potential. Insufficient energy reduces reheating to $2E_{\rm SN}/V_h^2$; ejection cannot exceed available hot gas.
 
@@ -351,10 +421,14 @@ E_{\rm rh,h}=\frac12\Delta M_{\rm rh}V_h^2,\qquad
 \Delta M_{\rm ej,h}=\frac{E_{\rm SN}-E_{\rm rh,h}}{V_h^2/2}.
 ```
 
+*References:* {ref}`Mutch et al. (2016), eqs. 19–21 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-sn-energy-ejection
 \Delta M_{\rm ej}=\left[\frac{2E_{\rm SN}}{V_{\rm vir,FOF}^2}-\Delta M_{\rm rh}\right]_+.
 ```
+
+*References:* {ref}`Mutch et al. (2016), eqs. 19–21 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 When stars and reheating exceed cold gas, $f_{\rm avail}$ rescales stellar, reheated, recycled and remnant masses; precomputed energy and metal returns retain their values. $f_{Z,\rm ret}$ is the fraction of reheated metals retained in cold gas.
 
@@ -363,11 +437,15 @@ When stars and reheating exceed cold gas, $f_{\rm avail}$ rescales stellar, rehe
 f_{\rm avail}=\frac{M_{\rm cold}}{\Delta M_{\rm rh}+\Delta M_\star}<1,
 ```
 
+*References:* [Meraxes mass and metal transfers](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-sn-metal-transfer
 \Delta M_{Z,\rm rh}=(1-f_{Z,\rm ret})Z_{\rm cold}\Delta M_{\rm rh},\qquad
 \Delta M_{Z,\rm ej}=Z_{\rm hot,central}\Delta M_{\rm ej}.
 ```
+
+*References:* [Meraxes mass and metal transfers](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 ## Galaxy mergers
 
@@ -380,17 +458,23 @@ r=\min(r_{\rm phys},R_{\rm vir,mother}),\qquad
 \ln\Lambda=\ln\left(1+\frac{N_{p,\rm mother}}{N_{p,\rm sat}}\right).
 ```
 
+*References:* [Meraxes merger-clock inputs](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/mergers.c).
+
 ```{math}
 :label: gal-merger-time
 t_{\rm merge}=f_{\rm merge}\,
 \frac{1.17r^2V_{\rm vir,mother}}{\ln\Lambda\,GM_{\rm vir,sat}}.
 ```
 
+*References:* {ref}`Mutch et al. (2016), eq. 25 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/mergers.c).
+
 ```{math}
 :label: gal-merger-ratio
 B_g=M_{\star,g}+M_{\rm cold,g},\qquad
 \mu_{\rm merge}=\frac{\min(B_1,B_2)}{\max(B_1,B_2)}.
 ```
+
+*References:* {ref}`Mutch et al. (2016), eq. 26 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/mergers.c).
 
 ```{math}
 :label: gal-merger-burst
@@ -399,6 +483,8 @@ M_{\rm cold,combined},\;
 \alpha_{\rm burst}\,\mu_{\rm merge}^{\beta_{\rm burst}}
 M_{\rm cold,combined}\right].
 ```
+
+*References:* {ref}`Mutch et al. (2016), eq. 26 <ref-mutch2016>`; [Meraxes implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/mergers.c).
 
 ## Black holes and AGN
 
@@ -412,6 +498,8 @@ M_{\rm BH}=M_{\rm seed},\qquad
 M_{\rm seed}=\mathrm{constant}.
 ```
 
+*References:* {ref}`Qin et al. (2017b), §2.2 <ref-qin2017x>`.
+
 ```{math}
 :label: bh-hot-accretion
 \Delta M_{\rm hot}^{\rm trial}
@@ -419,6 +507,8 @@ M_{\rm seed}=\mathrm{constant}.
 \qquad C_{\rm B}=3.4754,
 \qquad X=\frac{m_p k_B T_{\rm vir}}{\Lambda(T_{\rm vir},Z)}.
 ```
+
+*References:* {ref}`Qin et al. (2017b), §2.2 <ref-qin2017x>`.
 
 ```{math}
 :label: bh-hot-cap
@@ -430,11 +520,15 @@ M_{\rm hot}\right],
 \qquad \eta=0.06,\quad t_E=450.514890\ {\rm Myr}.
 ```
 
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c#L272-L297).
+
 ```{math}
 :label: bh-radio-heating
 \Delta M_{\rm heat,R}
 =\frac{2\eta c^2}{V_{\rm vir}^2}\Delta M_{\rm hot}.
 ```
+
+*References:* {ref}`Qin et al. (2017b), Eq. (18) <ref-qin2017x>`; {ref}`Croton et al. (2006) <ref-croton2006>`.
 
 Radio heating and hot accretion are reduced together if heating exceeds cooling. The hot cap is an exponential mass, whereas cold accretion uses its increment. For cold episodes, $u$ is uniform on $[0,1)$ and $L_i$ is lookback time.
 
@@ -448,6 +542,8 @@ M_{\rm cold},\,
 M_{\rm cold}\right].
 ```
 
+*References:* {ref}`Qin et al. (2017b), §2.2.2 <ref-qin2017x>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c#L324-L351).
+
 ```{math}
 :label: bh-cold-interval
 \Delta t_{\rm snap}=L_{i-1}-L_i,
@@ -458,6 +554,8 @@ M_{\rm cold}\right].
 \Delta t_{\rm snap},&\text{otherwise}.
 \end{cases}
 ```
+
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c#L353-L445).
 
 ```{math}
 :label: bh-cold-accretion
@@ -470,6 +568,8 @@ M_{\rm BH}\left\{
 \qquad
 M_{\rm BH}\longleftarrow M_{\rm BH}+(1-\eta)\Delta M_{\rm acc}.
 ```
+
+*References:* {ref}`Qin et al. (2017b), §2.2 <ref-qin2017x>`.
 
 ```{math}
 :label: bh-duration-lbol
@@ -485,11 +585,15 @@ f_{\rm duty}=\operatorname{clip}_{[0,1]}
 \end{gathered}
 ```
 
+*References:* {ref}`Qin et al. (2017b), §2.2.2 <ref-qin2017x>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c).
+
 ```{math}
 :label: bh-quasar-heating
 \Delta M_{\rm heat,Q}
 =\epsilon_{\rm Q}\frac{2\eta c^2}{V_{\rm vir}^2}\Delta M_{\rm acc}.
 ```
+
+*References:* {ref}`Qin et al. (2017b), §2.2 <ref-qin2017x>`.
 
 Luminosities use the pre-accretion black-hole mass. Here $\mu$ is the baryonic merger ratio, $p_Q$ its feeding redshift exponent, and $\eta$ the radiative efficiency.
 
@@ -509,6 +613,8 @@ L_{\rm X,soft}=L_{\rm bol}/k_{\rm soft}.
 \end{aligned}
 ```
 
+*References:* {ref}`Shen et al. (2020), Table 1 <ref-shen2020>`.
+
 ```{math}
 :label: bh-ionizing-rate
 \begin{gathered}
@@ -519,6 +625,8 @@ L_\nu(912)=\frac{L_{1450}}{\nu_{1450}}
 =\frac{L_\nu(912)}{h_P\alpha_{\rm UV,hard}}.
 \end{gathered}
 ```
+
+*References:* {ref}`Qin et al. (2017b), §4.1 <ref-qin2017x>`; {ref}`Lusso et al. (2015) <ref-lusso2015>`.
 
 ```{math}
 :label: bh-uv-escape
@@ -534,6 +642,8 @@ f_{\rm esc,BH}=\operatorname{clip}_{[0,1]}
 \end{gathered}
 ```
 
+*References:* {ref}`Qin et al. (2017b), §§2.3 and 4.1 <ref-qin2017x>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/reionization.c#L99-L116).
+
 ```{math}
 :label: bh-equivalent-sources
 \begin{gathered}
@@ -546,6 +656,8 @@ M_{\rm BH,eff}\longleftarrow M_{\rm BH,eff}+\Delta M_{\rm BH,eff},
 \end{gathered}
 ```
 
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c).
+
 ```{math}
 :label: bh-equivalent-stored-increment
 \Delta M_{\rm BH,eff}^{\rm num}
@@ -553,6 +665,8 @@ M_{\rm BH,eff}\longleftarrow M_{\rm BH,eff}+\Delta M_{\rm BH,eff},
 \frac{f_{\rm esc,BH}}{N_{\gamma,*}},
 \qquad B=\frac{f_{\rm open}\dot N_{\gamma,\rm int}t_{\rm acc}}{10^{60}}.
 ```
+
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c).
 
 $N_{\gamma,*}$ counts photons per stellar baryon. The equivalent-source increment is expressed numerically in $10^{10}M_\odot$. Response weighting uses the local ionization-response time $t_{\rm resp}$; duty weighting instead multiplies the on-state rate by $f_{\rm duty}$.
 
@@ -564,11 +678,15 @@ $N_{\gamma,*}$ counts photons per stellar baryon. The equivalent-source incremen
 \quad(t_{\rm resp}>0).
 ```
 
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c#L353-L445).
+
 ```{math}
 :label: bh-quasar-magnitude
 M_{1450}=-19.07395-2.5\log_{10}
 \left[\frac{L_{1450}}{10^{10}L_\odot}\right].
 ```
+
+*References:* [Meraxes quasar AB-magnitude conversion](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/save.c#L81).
 
 ### X-ray absorption
 
@@ -580,6 +698,8 @@ For [Ueda et al. (2014)](https://doi.org/10.1088/0004-637X/786/2/104), $\ell_X=\
 \left[0.43\{1+\min(z,2)\}^{0.48}-0.24(\ell_X-43.75)\right],
 \qquad \epsilon=1.7,\qquad f_{\rm CTK}=1.
 ```
+
+*References:* {ref}`Ueda et al. (2014), §2.2 <ref-ueda2014>`.
 
 ```{math}
 :label: bh-column-distribution
@@ -600,6 +720,8 @@ P_j=g_j/A\ (j<4),\qquad P_4=2g_4/A.
 \end{aligned}
 ```
 
+*References:* {ref}`Ueda et al. (2014), §2.2 <ref-ueda2014>`.
+
 ```{math}
 :label: bh-xray-transmission
 T_b(N_H)=
@@ -613,11 +735,15 @@ C_{\rm T}=\begin{cases}
 \end{cases}
 ```
 
+*References:* {ref}`Morrison & McCammon (1983) <ref-morrison1983>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/blackhole_feedback.c#L9-L147).
+
 ```{math}
 :label: bh-photoelectric-cross-section
 \sigma_{\rm pe}(E)
 =10^{-24}(C_0+C_1E+C_2E^2)E^{-3}\ {\rm cm^2},\qquad E\text{ in keV}.
 ```
+
+*References:* {ref}`Morrison & McCammon (1983) <ref-morrison1983>`.
 
 $\gamma_b$ is the band spectral index and $\sigma_T=6.6524\times10^{-25}\,\mathrm{cm^2}$. Transmitted luminosity is $T_bL_{X,b}$. Photoelectric coefficients follow [Morrison & McCammon (1983)](https://doi.org/10.1086/161102):
 
@@ -655,6 +781,8 @@ The absorption cross-section vanishes below 0.03 keV and at or above 10 keV.
 \qquad Z_{\rm cold}=\frac{M_{Z,\rm cold}}{M_{\rm cold}}.
 ```
 
+*References:* {ref}`Ventura et al. (2024), §2 <ref-ventura2024>`.
+
 ```{math}
 :label: opt-popiii-imf
 \phi(m)=\begin{cases}
@@ -663,6 +791,8 @@ A m^{-2.35},&\text{Salpeter cases},\\
 \end{cases}
 \qquad \int_{m_{\min}}^{m_{\max}}m\phi(m)\,dm=1.
 ```
+
+*References:* {ref}`Ventura et al. (2024) <ref-ventura2024>`; {ref}`Raiter et al. (2010) <ref-raiter2010>`.
 
 | IMF | Mass range ($M_\odot$) | $m_c$ ($M_\odot$) | $\sigma$ | Photons per stellar baryon |
 |---|---|---:|---:|---:|
@@ -683,6 +813,8 @@ F_{\rm BH,rem}&=\int_{([40,140]\cup[260,\infty))\cap I}m\phi(m)\,dm,
 \end{aligned}
 ```
 
+*References:* {ref}`Ventura et al. (2024), §2 <ref-ventura2024>`.
+
 ### Stellar lifetimes and feedback
 
 For $x=\log_{10}(m/M_\odot)$, lifetime coefficients are:
@@ -692,6 +824,8 @@ For $x=\log_{10}(m/M_\odot)$, lifetime coefficients are:
 \log_{10}\!\left(\frac{t_*}{\rm yr}\right)
 =a_0+a_1x+a_2x^2+a_3x^3.
 ```
+
+*References:* {ref}`Schaerer (2002) <ref-schaerer2002>`.
 
 | Mass loss | $a_0$ | $a_1$ | $a_2$ | $a_3$ |
 |---|---:|---:|---:|---:|
@@ -707,12 +841,16 @@ m_{\max,i}=m_*(\tau_i-\Delta t_{\rm after}/2),
 \qquad W_i=[m_{\min,i},m_{\max,i}]\cap[8,40]\cap I.
 ```
 
+*References:* {ref}`Mutch et al. (2016) <ref-mutch2016>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/PopIII.c#L411-L462).
+
 ```{math}
 :label: opt-popiii-delay-fractions
 q_{N,i}=\frac{n_i}{N_{\rm CC}+N_{\rm PI}},\qquad
 q_{M,i}=\frac{f_i}{F_{\rm CC}+F_{\rm PI}},\qquad
 Y_{k,i}=\frac{f_i}{F_{\rm CC}}\,y_k(m_{\max,i}).
 ```
+
+*References:* {ref}`Mutch et al. (2016) <ref-mutch2016>`; {ref}`Heger & Woosley (2010) <ref-heger2010>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/PopIII.c#L464-L542).
 
 | Upper progenitor mass ($M_\odot$) | Recycled fraction | Remnant fraction | Metal yield |
 |---|---:|---:|---:|
@@ -732,6 +870,8 @@ Core-collapse return factors $r_{\rm CC,i},y_{\rm CC,i},q_{\rm CC,i}$ correspond
 \end{gathered}
 ```
 
+*References:* {ref}`Ventura et al. (2024), §2 <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-popiii-current
 \begin{aligned}
@@ -742,11 +882,15 @@ Core-collapse return factors $r_{\rm CC,i},y_{\rm CC,i},q_{\rm CC,i}$ correspond
 \end{aligned}
 ```
 
+*References:* {ref}`Ventura et al. (2024), §2 <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
+
 ```{math}
 :label: gal-popiii-reheat
 \Delta M_{\rm rh,III}=\epsilon_{\rm rh,III}m_{\star,III}
 \left(\frac{e_{\rm CC,0}}{E_{\rm CC}}+\frac{e_{\rm PI}}{E_{\rm PI}}\right),
 ```
+
+*References:* {ref}`Ventura et al. (2024), §2 <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 ```{math}
 :label: gal-popiii-energy-conversion
@@ -758,6 +902,8 @@ E_{\rm SN,III}^{\rm current}&=\epsilon_{E,III}
 \frac{m_0(e_{\rm CC,0}^{\rm cgs}+e_{\rm PI}^{\rm cgs})}{U_E}.
 \end{aligned}
 ```
+
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c).
 
 $E_{\rm CC},E_{\rm PI}$ are event energies, $e_i$ their population-weighted energies per formed mass. For numerical masses, $\kappa_M=10^{10}/h$ converts to solar masses; $U_E$ converts cgs energy. Delayed energy includes the additional factor $N_{\rm CC}\kappa_M$ shown above.
 
@@ -772,6 +918,8 @@ v_{\rm bc}=n\sigma_{\rm bc},\quad n\in\{0,1\},\qquad
 V_{\rm cool}=\sqrt{(3.714\ {\rm km\ s^{-1}})^2+(4.015v_{\rm bc})^2}.
 ```
 
+*References:* {ref}`Fialkov et al. (2012) <ref-fialkov2012>`; {ref}`Ventura et al. (2024), Eq. (3) <ref-ventura2024>`.
+
 The molecular cooling temperature is obtained by substituting $V_{\rm cool}$ into Equation {eq}`gal-virial-temperature`. Its threshold mass $M_{\rm cool,0}$ then follows Equation {eq}`gal-temperature-mass`.
 
 ```{math}
@@ -781,6 +929,8 @@ M_{\rm crit,MC}(\mathbf{x},z)
 \left[1+6.96\{4\pi J_{\rm LW,21}(\mathbf{x},z)\}^{0.47}\right].
 ```
 
+*References:* {ref}`Fialkov et al. (2013), Eq. (1) <ref-fialkov2013>`; {ref}`Ventura et al. (2024) <ref-ventura2024>`.
+
 ### Metal bubbles
 
 Energy $E$ injected at $t_0$ drives expansion through ambient density $n$. Inside the virial radius, the greater halo/IGM density applies; outside, the IGM density applies. $N_{\rm metal}$ is the number of cells per side.
@@ -789,6 +939,8 @@ Energy $E$ injected at $t_0$ drives expansion through ambient density $n$. Insid
 :label: opt-metal-bubble
 R_{\rm metal}(t)=\left(\frac{E}{m_p}\right)^{1/5}n^{-1/5}(t-t_0)^{2/5}.
 ```
+
+*References:* {ref}`Ventura et al. (2024), metal-enrichment model <ref-ventura2024>`.
 
 ```{math}
 :label: opt-metal-ambient-density
@@ -803,6 +955,8 @@ n_{\rm IGM}
 \end{gathered}
 ```
 
+*References:* {ref}`Ventura et al. (2024) <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/supernova_feedback.c#L464-L540).
+
 ```{math}
 :label: opt-enrichment-probability
 P_{\rm enrich,cell}
@@ -811,12 +965,16 @@ P_{\rm enrich,cell}
 (4\pi/3)R_{c,g}^3}{(L_{\rm box}/N_{\rm metal})^3}\right].
 ```
 
+*References:* {ref}`Ventura et al. (2024) <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/metal_evo.c).
+
 ```{math}
 :label: opt-cell-metallicity
 Z_{\rm IGM,cell}=\frac{M_{Z,\rm cell}}{M_{\rm gas,cell}},\qquad
 \Delta M_{Z,\rm infall}=Z_{\rm IGM,cell}\Delta M_{\rm infall}
 \quad\text{for an externally enriched central galaxy}.
 ```
+
+*References:* {ref}`Ventura et al. (2024) <ref-ventura2024>`; [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/metal_evo.c).
 
 $R_c=(1+z)R_{\rm metal}$; filling factors sum bubble volumes within each source cell.
 
@@ -838,6 +996,8 @@ R_d(z)=\begin{cases}
 \end{cases}
 ```
 
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/reionization.c#L93-L294).
+
 Here $f_{{\rm norm},p}$ is the population normalization, $z_{\rm off}$ the redshift normalization, and $\alpha$ and $\beta$ the property and redshift exponents. The selector $d$ determines the dimensionless property factor:
 
 | $d$ | $P_{d,p}$ | If the required property is non-positive |
@@ -858,6 +1018,8 @@ Circumgalactic attenuation and clipping give
 f_{\rm esc,p}^{0}=\min\!\left[1,\max\!\left(0,f_{\rm esc,p}^{\rm pre}e^{-\tau_{\rm CGM}}\right)\right].
 ```
 
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/reionization.c#L93-L294).
+
 The optical depth is zero without attenuation. With positive hot-gas mass and virial radius,
 
 ```{math}
@@ -866,6 +1028,8 @@ The optical depth is zero without attenuation. With positive hot-gas mass and vi
 \left(\frac{M_{\rm hot}}{10^8M_\odot}\right)^a
 \left(\frac{10\,\mathrm{kpc}}{R_{\rm vir}}\right)^{2a}S^b.
 ```
+
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/reionization.c#L1920-L1965).
 
 $A_{\rm CGM}$, $a$ and $b$ set its normalization and response. The environmental driver $S$ is either $10\Gamma_{12}$, the current-snapshot accumulation of $\Gamma_{12}\Delta t/\mathrm{Myr}$, or the local clumping factor. Negative drivers are replaced by zero. Here $\Gamma_{12}$ is the physical photoionization rate in units of $10^{-12}\,\mathrm{s}^{-1}$.
 
@@ -880,6 +1044,8 @@ q^{\rm draw}=q\,10^{\sigma g},\qquad
 \mathbb E[q^{\rm draw}]=q\,e^{s^2/2}.
 ```
 
+*References:* [Meraxes lognormal-scatter implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/misc_tools.c).
+
 The input $q$ is the median. Zero sources remain zero. Stellar escape fractions use $q=f_{\rm esc}^{0}$ and are clipped again at one. Their mean is
 
 ```{math}
@@ -891,6 +1057,8 @@ The input $q$ is the median. Zero sources remain zero. Stellar escape fractions 
 \qquad 0<f_{\rm esc}^{0}\leq1,\ s>0.
 ```
 
+*References:* analytic expectation of Equation {eq}`stoch-lognormal` after clipping at one.
+
 $\Phi$ is the standard-normal cumulative distribution. Clipping can lower the mean relative to a deterministic fraction already near one.
 
 Each star-formation update contributes to cumulative escaped mass $G$ and the snapshot escaped-rate accumulator $W$:
@@ -900,6 +1068,8 @@ Each star-formation update contributes to cumulative escaped mass $G$ and the sn
 G\leftarrow G+\Delta M_{\star,j}f_j,\qquad
 W\leftarrow W+\dot M_{\star,j}f_j.
 ```
+
+*References:* [Meraxes source implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/reionization.c#L93-L294).
 
 $\Delta M_{\star,j}$ is newly formed mass, while $\dot M_{\star,j}$ is the SFR accumulated by update $j$ within the snapshot. Ordinary sources use the deterministic fraction; treated sources use a fresh scattered fraction. Because $W$ sums update contributions, it need not equal the final SFR multiplied by the final escape fraction. $G$ counts formed mass, including mass later returned to the gas.
 
@@ -912,6 +1082,8 @@ $\ell_\nu(\tau,Z)$ is luminosity per formed stellar mass. Filter responses use f
 L_\nu(t)=\int_0^t\dot M_*(t')\ell_\nu(t-t',Z(t'))\,dt'.
 ```
 
+*References:* {ref}`Qiu et al. (2019), stellar-population synthesis <ref-qiu2019>`.
+
 ```{math}
 :label: opt-sector-rest-filter
 F_b=\frac{3.34\times10^4}{\ln(\lambda_2/\lambda_1)}
@@ -920,6 +1092,8 @@ F_b=\frac{3.34\times10^4}{\ln(\lambda_2/\lambda_1)}
 F_{\beta,b}=\frac{1}{\lambda_2-\lambda_1}
 \int_{\lambda_1}^{\lambda_2}f_\lambda(\lambda)\,d\lambda.
 ```
+
+*References:* [Sector filter integration](https://github.com/meraxes-devs/sector/blob/master/sector/clib/spectra.c#L226-L330).
 
 ```{math}
 :label: opt-sector-observer-filter
@@ -935,6 +1109,8 @@ W_b(\lambda_{\rm rest})
 \end{gathered}
 ```
 
+*References:* [Sector filter integration](https://github.com/meraxes-devs/sector/blob/master/sector/clib/spectra.c#L226-L330).
+
 The {ref}`Qiu et al. (2019) <ref-qiu2019>` dust model uses metallicity exponent $p_Z$, redshift coefficient $a_z$, optical-depth amplitudes $\tau_0$ and spectral slopes $n$. Superscript int denotes numerical mass and length. Birth clouds attenuate young stars; interstellar dust attenuates both components.
 
 ```{math}
@@ -946,6 +1122,8 @@ M_{\rm cold}^{\rm int}
 \tau_{\rm UV,ISM}=\tau_{\rm ISM,0}D,\qquad
 \tau_{\rm UV,BC}=\tau_{\rm BC,0}D.
 ```
+
+*References:* {ref}`Qiu et al. (2019), dust-to-gas model <ref-qiu2019>`.
 
 ```{math}
 :label: opt-sector-dust-attenuation
@@ -959,12 +1137,16 @@ F_b^{\rm dusty}=e^{-\tau_{\rm ISM}(\lambda_b)}
 \end{gathered}
 ```
 
+*References:* {ref}`Charlot & Fall (2000) <ref-charlot2000>`; {ref}`Qiu et al. (2019) <ref-qiu2019>`.
+
 ```{math}
 :label: opt-ab-magnitude
 M_b=-2.5\log_{10}F_b^{\rm num}+8.9
 -2.5\log_{10}\!\left[
 \frac{U_M}{U_T}\frac{{\rm seconds\ per\ year}}{M_\odot}\right].
 ```
+
+*References:* [Meraxes AB-magnitude conversion](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/magnitudes.c#L742-L795).
 
 ### [O III] 5008 Å
 
@@ -983,6 +1165,8 @@ b_{32}=\frac{A_{32}}{A_{32}+A_{31}}.
 \end{aligned}
 ```
 
+*References:* {ref}`Draine (2011), §2.3 and Table F.2 <ref-draine2011>`; [Meraxes atomic-rate implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/emission_lines.c#L18-L32).
+
 $M_d=M_*+M_{\rm cold}$, $m_d=M_d/M_{\rm vir}$, $c_s^2=10^{12}\,\mathrm{cm^2\,s^{-2}}$, $E_{\rm SN}=10^{51}$ erg and $\dot M_{\rm cool}=\Delta M_{\rm cool}/\Delta t$.
 
 ```{math}
@@ -993,6 +1177,8 @@ r_b^3=(8\times10^{-5}\ {\rm Mpc})^3
 \left(\frac{M_{\rm vir}^{\rm int}\,10^2}{h}\right)^{-2/3}
 \left(\frac{1+z}{10}\right)^{-4}.
 ```
+
+*References:* {ref}`Pathak et al. (2025), Eq. (7) <ref-pathak2025>`.
 
 ```{math}
 :label: opt-oiii-disk-support
@@ -1009,6 +1195,8 @@ N_b=\frac{3M_d}{4\pi\rho_{\rm eff}r_b^3},\qquad
 \end{aligned}
 ```
 
+*References:* {ref}`Pathak et al. (2025), §§2.1–2.3 <ref-pathak2025>`; [Meraxes disk-density implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/emission_lines.c).
+
 ```{math}
 :label: opt-oiii-stromgren
 \begin{gathered}
@@ -1019,6 +1207,8 @@ r_S^2=\left[\frac{3\dot N_{\gamma,b}}{4\pi\alpha_B\rho_{\rm eff}^2}\right]^{2/3}
 \\ \alpha_B=2.6\times10^{-13}\ {\rm cm^3\ s^{-1}}.
 \end{gathered}
 ```
+
+*References:* [Meraxes ionization-parameter implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/emission_lines.c#L74-L81).
 
 Here $\rho_{\rm eff}$ is a mass-density proxy used directly in the ionization expressions. A physical Strömgren radius requires number density; dimensionless ionization parameter additionally requires division by $c$. Thus $q_{\rm ion}$ is an uncalibrated proxy.
 
@@ -1033,9 +1223,13 @@ h_P\nu_{32}\,f_{\rm OIII},
 \end{gathered}
 ```
 
+*References:* {ref}`Yang & Lidz (2020), §§3.3 and 5.2 <ref-yang2020>`; {ref}`Pathak et al. (2025), §4 <ref-pathak2025>`; [Meraxes line-luminosity implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/physics/emission_lines.c).
+
 ```{math}
 :label: opt-oiii-dust
 L_{5008}^{\rm dusty}=L_{5008}\,10^{0.4(M_b-M_b^{\rm dusty})}.
 ```
+
+*References:* {ref}`Qiu et al. (2019) <ref-qiu2019>`; [Meraxes line-attenuation implementation](https://github.com/qyx268/meraxes-devs/blob/forests/src/core/save.c).
 
 $L_{5008}$ is in $\mathrm{erg\,s^{-1}}$; dust uses the intrinsic and attenuated magnitudes of a continuum band containing the line.
