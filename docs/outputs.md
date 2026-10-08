@@ -6,16 +6,27 @@ Meraxes saves galaxy catalogues, radiation grids, and global statistics in HDF5 
 
 ## Files and snapshots
 
-`FileNameGalaxies` sets the filename prefix and `OutputDir` sets the directory. Here, `<p>` is the prefix, `<r>` the MPI rank, and `<s>` the snapshot number.
+For example, set the output directory and filename prefix in `input.par`:
+
+```text
+OutputDir:         ./output/
+FileNameGalaxies:   meraxes
+```
+
+For a selected output at snapshot 10, the files are:
 
 | File | Contents |
 | --- | --- |
-| `<p>.hdf5` | Master metadata and links to selected snapshots; assembled by rank 0 after the run. |
-| `<p>_<r>.hdf5` | Rank-local galaxy catalogues and merger indices. Rank 0 also holds global distribution functions. |
-| `<p>_grids_<s>.hdf5` | Source, ionization, thermal, 21-cm, and optional LW products; written collectively. |
-| `<p>_metal_grids_<s>.hdf5` | Metal-enrichment grids when mini-halo and metal-evolution physics are enabled. |
+| `output/meraxes.hdf5` | Master metadata and links to selected snapshots; assembled by rank 0 after the run. |
+| `output/meraxes_0.hdf5`, `output/meraxes_1.hdf5`, … | One catalogue file per MPI rank, containing galaxy records and merger indices. Rank 0 also holds global distribution functions. |
+| `output/meraxes_grids_10.hdf5` | Snapshot 10 source, ionization, thermal, 21-cm, and optional LW products; written collectively. |
+| `output/meraxes_metal_grids_10.hdf5` | Snapshot 10 metal-enrichment grids when mini-halo and metal-evolution physics are enabled. |
 
-A snapshot is named `SnapNNN`, with a minimum of three digits. Grid filenames use the unpadded snapshot number. The master contains selected output snapshots; intermediate grid files may also hold global summaries. Keep all files together: the master uses relative external links.
+The corresponding group in `meraxes.hdf5` is `Snap010`. For example,
+`Snap010/Core0/Galaxies` opens `Snap010/Galaxies` in `meraxes_0.hdf5`, while
+`Snap010/Grids/xH` opens `/xH` in `meraxes_grids_10.hdf5`.
+Keep the files together so these relative external links remain valid.
+The master links selected output snapshots; intermediate grid files may also hold global summaries.
 
 | Inside `Snap` | Object | Contents |
 | --- | --- | --- |
@@ -179,7 +190,7 @@ These integer arrays use rank-local rows, with −1 for missing connections. Lin
 
 ## Radiation grids
 
-All datasets in this section are at `SnapNNN/Grids/<dataset>` in the master file, linked to `/<dataset>` in `OutputDir/<p>_grids_<s>.hdf5`. This includes source grids, ionization and thermal fields, 21-cm lightcones and power spectra, and LW diagnostics.
+All datasets in this section are under the snapshot's `Grids` group in the master file and at the root of its grid file. In the example above, `Snap010/Grids/xH` links to `/xH` in `output/meraxes_grids_10.hdf5`. Source grids, thermal fields, 21-cm lightcones and power spectra, and LW diagnostics use the same location.
 
 A full field is a float32 cube with `ReionGridDim` cells per axis. Cubes are uncompressed, chunked by x plane, and occupy four bytes per cell. Lightcones, power spectra, and spectral diagnostics have the alternative shapes listed below.
 
@@ -258,7 +269,7 @@ Mini + Spin + LW also produces float64 shell/spectral arrays. Here `F` denotes `
 
 ## Global grid attributes
 
-Attributes store box-wide summaries without requiring a full cube read. Each is a one-element float64 attribute on `SnapNNN/Grids/<dataset>` in the master, equivalent to `/<dataset>` in the corresponding grid file. Volume weighting averages cells; mass weighting weights them by density. Attributes retain the calculation's normalization.
+Attributes store box-wide summaries without requiring a full cube read. For example, `volume_weighted_global_xH` is an attribute of `Snap010/Grids/xH`, also accessible on `/xH` in `meraxes_grids_10.hdf5`. Each summary below is a one-element float64 attribute of the named dataset. Volume weighting averages cells; mass weighting weights them by density. Attributes retain the calculation's normalization.
 
 ### Ionization and source summaries
 
@@ -297,7 +308,7 @@ For a rate density, divide a per-cell source average by cell volume. The low-red
 
 ## Metal grids
 
-`SnapNNN/MetalGrids/<dataset>` links to `/<dataset>` in `OutputDir/<p>_metal_grids_<s>.hdf5` and requires Mini and `Flag_IncludeMetalEvo`. Fields are float32 cubes with `MetalGridDim` cells per axis, uncompressed and chunked by x plane.
+With Mini and `Flag_IncludeMetalEvo`, metal datasets appear under the snapshot's `MetalGrids` group. For example, `Snap010/MetalGrids/mass_metals` links to `/mass_metals` in `output/meraxes_metal_grids_10.hdf5`. Fields are float32 cubes with `MetalGridDim` cells per axis, uncompressed and chunked by x plane.
 
 | Dataset | Meaning | Standard stored unit |
 | --- | --- | --- |
@@ -313,7 +324,7 @@ IGM-polluting bubbles must extend to at least three virial radii. `Max Radius` c
 
 ## Mass and luminosity functions
 
-Each distribution is at `SnapNNN/<dataset>` in the master, linked to the same path in `OutputDir/<p>_0.hdf5`. It is a float64 array with three columns: **bin center, number density, uncertainty**. Attributes are `n_bins`, `x_min`, `x_max`, `bin_width`, `volume`, `description`, `units`, and `columns` (stored as `center,density,uncertainty`).
+Each distribution is directly under its snapshot group. For example, `Snap010/SMF` in `meraxes.hdf5` links to `Snap010/SMF` in `output/meraxes_0.hdf5`. It is a float64 array with three columns: **bin center, number density, uncertainty**. Attributes are `n_bins`, `x_min`, `x_max`, `bin_width`, `volume`, `description`, `units`, and `columns` (stored as `center,density,uncertainty`).
 
 | Dataset | Configuration | Coordinate and selection | Density unit |
 | --- | --- | --- | --- |
@@ -331,7 +342,7 @@ Photometric distributions require a target photometry snapshot. X-ray distributi
 
 ### X-ray diagnostics
 
-`Flag_OutputXrayLF` also writes these float64 datasets at the root of the master file, `OutputDir/<p>.hdf5`. The emissivity histories require Spin and are indexed by simulation snapshot number.
+`Flag_OutputXrayLF` also writes these float64 datasets at the root of the master file (`output/meraxes.hdf5` in this example). The emissivity histories require Spin and are indexed by simulation snapshot number.
 
 | Dataset | Shape | Meaning |
 | --- | --- | --- |

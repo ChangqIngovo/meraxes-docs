@@ -111,7 +111,7 @@ def galaxy_physics():
 
 
 def output_tree():
-    d = Diagram(1180, 730, "Meraxes output hierarchy", "The master file links snapshot groups. Each snapshot links rank galaxy catalogues, grid products and distribution-function summaries.")
+    d = Diagram(1180, 690, "Meraxes output hierarchy", "The master file links snapshot groups. Each snapshot links rank galaxy catalogues, grid products and distribution-function summaries.")
     d.box("master", 440, 20, 300, 85, "meraxes.hdf5", ["Master assembled by rank 0", "After the snapshot loop"], "output")
     d.box("meta", 20, 20, 320, 105, "Master metadata", ["InputParams; Units", "HubbleConversions; gitdiff", "Attributes hold saved metadata"], "input")
     d.box("snaps", 845, 20, 315, 85, "Snapshot groups", ["SnapNNN", "Selected output snapshots"], "output")
@@ -129,7 +129,6 @@ def output_tree():
     d.edge("snap","summaries","s","n",via=[(590,340),(1000,340)])
     d.edge("core","galdata")
     d.edge("grids","griddata")
-    d.label(590, 715, "Snap is generic notation; stored group names carry a zero-padded snapshot number.")
     d.save("output-tree.svg")
 
 
